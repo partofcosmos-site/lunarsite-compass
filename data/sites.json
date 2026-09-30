@@ -1,0 +1,82 @@
+[
+  {
+    "id": "shackleton_peak_b",
+    "name": "Peak Near Shackleton (Peak B)",
+    "latitude": -89.68,
+    "longitude": 129.0,
+    "elevation_m": 4200,
+    "slope_deg": 13.8,
+    "mission_context": "Artemis III Peak of Eternal Light candidate; highest topographic relief on Shackleton rim; up to 92% summer illumination",
+    "scientific_interest": "Exposed deep anorthositic lower crust; direct access to Shackleton 40 K Permanently Shadowed Region (PSR)"
+  },
+  {
+    "id": "connecting_ridge_cr1",
+    "name": "Connecting Ridge (Site CR1)",
+    "latitude": -89.468,
+    "longitude": 222.6,
+    "elevation_m": 1850,
+    "slope_deg": 14.5,
+    "mission_context": "Artemis III candidate; topographic saddle bridging Shackleton and de Gerlache craters; >100 days summer daylight",
+    "scientific_interest": "Pristine cryogenic volatile sampling along PSR boundary; primordial South Pole-Aitken (SPA) impact ejecta"
+  },
+  {
+    "id": "im2_mons_mouton",
+    "name": "IM-2 Athena / PRIME-1 (Mons Mouton)",
+    "latitude": -84.7906,
+    "longitude": 29.1957,
+    "elevation_m": 6000,
+    "slope_deg": 5.2,
+    "mission_context": "CLPS PRIME-1 target; TRIDENT 1-m percussive drill & MSolo mass spectrometer for sub-surface ice mining validation",
+    "scientific_interest": "Direct volatile extraction demonstration; sub-surface ice abundance mapping at 1-meter depth"
+  },
+  {
+    "id": "viper_mons_mouton",
+    "name": "VIPER Target (Mons Mouton Plateau)",
+    "latitude": -85.42088,
+    "longitude": 31.6218,
+    "elevation_m": 5050,
+    "slope_deg": 4.8,
+    "mission_context": "NASA VIPER exploration center; wide flat-topped mountain (~6 km relief) with expansive safe landing corridors",
+    "scientific_interest": "Characterization of four Thermal Stability Zones (Surface PSRs, shallow buried, deep permafrost, dry regolith)"
+  },
+  {
+    "id": "nobile_rim_1",
+    "name": "Nobile Rim 1 (West Rim Plateau)",
+    "latitude": -85.44,
+    "longitude": 37.37,
+    "elevation_m": 3100,
+    "slope_deg": 5.5,
+    "mission_context": "Artemis III candidate; adjoining Mons Mouton; Earth sits 4°–6° above horizon, minimizing terrain occultation",
+    "scientific_interest": "Overlap with robotic volatile prospecting; multi-basin ejecta blanket (Amundsen, Faustini, Shoemaker)"
+  },
+  {
+    "id": "faustini_rim_a",
+    "name": "Faustini Crater Rim A (Site LM7)",
+    "latitude": -87.8897,
+    "longitude": 85.0,
+    "elevation_m": 2950,
+    "slope_deg": 9.8,
+    "mission_context": "Artemis III candidate; high western rim ridge overlooking Faustini and Shoemaker cold traps",
+    "scientific_interest": "LCROSS analog volatile stratigraphy; D/H isotopic ratio analysis to distinguish cometary vs volcanic water sources"
+  },
+  {
+    "id": "de_gerlache_rim_1",
+    "name": "de Gerlache Crater Rim 1",
+    "latitude": -88.5,
+    "longitude": -68.3,
+    "elevation_m": 2100,
+    "slope_deg": 11.2,
+    "mission_context": "Artemis III candidate; northern rim crest complementary to Connecting Ridge; steep inner slopes",
+    "scientific_interest": "Sharp volatile concentration gradients between sunlit plateau and permanently frozen crater floor"
+  },
+  {
+    "id": "haworth_psr_control",
+    "name": "Haworth Crater Interior (PSR Benchmark)",
+    "latitude": -87.4,
+    "longitude": -5.17,
+    "elevation_m": -3200,
+    "slope_deg": 8.3,
+    "mission_context": "Permanently Shadowed Region control benchmark (35-km dia bowl, T = 35–40 K); 0% sunlight year-round",
+    "scientific_interest": "Traps super-volatile species (CO, CH4, NH3, Ar); pristine chemical record of ancient Solar System impact history"
+  }
+]
