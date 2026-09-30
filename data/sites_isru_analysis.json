@@ -1,0 +1,777 @@
+[
+  {
+    "site_id": "nobile_rim_1",
+    "site_name": "Nobile Rim 1 (West Rim Plateau)",
+    "nearest_psr_name": "Nobile West Rim Cold Pockets",
+    "nearest_psr_distance_km": 3.13,
+    "nearest_psr_temperature_k": 68,
+    "nearest_psr_volatiles": [
+      "Permafrost Regolith",
+      "Hydrated Silicates"
+    ],
+    "traverse_classification": "Direct Wheeled Traverse (Optimal)",
+    "isru_accessibility_index": 85.8,
+    "all_psr_proximity": [
+      {
+        "psr_id": "nobile_micro_psr",
+        "psr_name": "Nobile West Rim Cold Pockets",
+        "distance_km": 3.13,
+        "temperature_k": 68,
+        "volatiles": [
+          "Permafrost Regolith",
+          "Hydrated Silicates"
+        ],
+        "wall_slope_deg": 7.5,
+        "traverse_class": "Direct Wheeled Traverse (Optimal)",
+        "feasibility_score": 95.0
+      },
+      {
+        "psr_id": "mons_mouton_micro_psr",
+        "psr_name": "Mons Mouton Plateau Depressions",
+        "distance_km": 21.95,
+        "temperature_k": 65,
+        "volatiles": [
+          "Shallow Buried Ice (1m depth)",
+          "OH Minerals"
+        ],
+        "wall_slope_deg": 6.8,
+        "traverse_class": "Long-Range Rover Traverse",
+        "feasibility_score": 75.0
+      },
+      {
+        "psr_id": "shoemaker_floor",
+        "psr_name": "Shoemaker Crater Floor",
+        "distance_km": 81.74,
+        "temperature_k": 40,
+        "volatiles": [
+          "H2O Surface Frost",
+          "SO2"
+        ],
+        "wall_slope_deg": 19.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "haworth_floor",
+        "psr_name": "Haworth Crater Floor",
+        "distance_km": 96.29,
+        "temperature_k": 35,
+        "volatiles": [
+          "Super-Volatiles (CO, Ar)",
+          "H2O"
+        ],
+        "wall_slope_deg": 24.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "faustini_floor",
+        "psr_name": "Faustini Crater Floor",
+        "distance_km": 101.18,
+        "temperature_k": 42,
+        "volatiles": [
+          "H2O Ice",
+          "CH4",
+          "H2S"
+        ],
+        "wall_slope_deg": 22.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shackleton_floor",
+        "psr_name": "Shackleton Crater Floor",
+        "distance_km": 135.88,
+        "temperature_k": 38,
+        "volatiles": [
+          "H2O Ice",
+          "CO2",
+          "NH3",
+          "Organics"
+        ],
+        "wall_slope_deg": 28.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      }
+    ]
+  },
+  {
+    "site_id": "im2_mons_mouton",
+    "site_name": "IM-2 Athena / PRIME-1 (Mons Mouton)",
+    "nearest_psr_name": "Mons Mouton Plateau Depressions",
+    "nearest_psr_distance_km": 6.88,
+    "nearest_psr_temperature_k": 65,
+    "nearest_psr_volatiles": [
+      "Shallow Buried Ice (1m depth)",
+      "OH Minerals"
+    ],
+    "traverse_classification": "Direct Wheeled Traverse (Optimal)",
+    "isru_accessibility_index": 82.1,
+    "all_psr_proximity": [
+      {
+        "psr_id": "mons_mouton_micro_psr",
+        "psr_name": "Mons Mouton Plateau Depressions",
+        "distance_km": 6.88,
+        "temperature_k": 65,
+        "volatiles": [
+          "Shallow Buried Ice (1m depth)",
+          "OH Minerals"
+        ],
+        "wall_slope_deg": 6.8,
+        "traverse_class": "Direct Wheeled Traverse (Optimal)",
+        "feasibility_score": 95.0
+      },
+      {
+        "psr_id": "nobile_micro_psr",
+        "psr_name": "Nobile West Rim Cold Pockets",
+        "distance_km": 28.48,
+        "temperature_k": 68,
+        "volatiles": [
+          "Permafrost Regolith",
+          "Hydrated Silicates"
+        ],
+        "wall_slope_deg": 7.5,
+        "traverse_class": "Complex Multi-Ridge Traverse",
+        "feasibility_score": 50.0
+      },
+      {
+        "psr_id": "haworth_floor",
+        "psr_name": "Haworth Crater Floor",
+        "distance_km": 103.01,
+        "temperature_k": 35,
+        "volatiles": [
+          "Super-Volatiles (CO, Ar)",
+          "H2O"
+        ],
+        "wall_slope_deg": 24.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shoemaker_floor",
+        "psr_name": "Shoemaker Crater Floor",
+        "distance_km": 104.11,
+        "temperature_k": 40,
+        "volatiles": [
+          "H2O Surface Frost",
+          "SO2"
+        ],
+        "wall_slope_deg": 19.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "faustini_floor",
+        "psr_name": "Faustini Crater Floor",
+        "distance_km": 129.53,
+        "temperature_k": 42,
+        "volatiles": [
+          "H2O Ice",
+          "CH4",
+          "H2S"
+        ],
+        "wall_slope_deg": 22.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shackleton_floor",
+        "psr_name": "Shackleton Crater Floor",
+        "distance_km": 155.33,
+        "temperature_k": 38,
+        "volatiles": [
+          "H2O Ice",
+          "CO2",
+          "NH3",
+          "Organics"
+        ],
+        "wall_slope_deg": 28.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      }
+    ]
+  },
+  {
+    "site_id": "viper_mons_mouton",
+    "site_name": "VIPER Target (Mons Mouton Plateau)",
+    "nearest_psr_name": "Mons Mouton Plateau Depressions",
+    "nearest_psr_distance_km": 14.37,
+    "nearest_psr_temperature_k": 65,
+    "nearest_psr_volatiles": [
+      "Shallow Buried Ice (1m depth)",
+      "OH Minerals"
+    ],
+    "traverse_classification": "Long-Range Rover Traverse",
+    "isru_accessibility_index": 68.3,
+    "all_psr_proximity": [
+      {
+        "psr_id": "mons_mouton_micro_psr",
+        "psr_name": "Mons Mouton Plateau Depressions",
+        "distance_km": 14.37,
+        "temperature_k": 65,
+        "volatiles": [
+          "Shallow Buried Ice (1m depth)",
+          "OH Minerals"
+        ],
+        "wall_slope_deg": 6.8,
+        "traverse_class": "Long-Range Rover Traverse",
+        "feasibility_score": 75.0
+      },
+      {
+        "psr_id": "nobile_micro_psr",
+        "psr_name": "Nobile West Rim Cold Pockets",
+        "distance_km": 15.7,
+        "temperature_k": 68,
+        "volatiles": [
+          "Permafrost Regolith",
+          "Hydrated Silicates"
+        ],
+        "wall_slope_deg": 7.5,
+        "traverse_class": "Long-Range Rover Traverse",
+        "feasibility_score": 75.0
+      },
+      {
+        "psr_id": "shoemaker_floor",
+        "psr_name": "Shoemaker Crater Floor",
+        "distance_km": 84.22,
+        "temperature_k": 40,
+        "volatiles": [
+          "H2O Surface Frost",
+          "SO2"
+        ],
+        "wall_slope_deg": 19.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "haworth_floor",
+        "psr_name": "Haworth Crater Floor",
+        "distance_km": 89.25,
+        "temperature_k": 35,
+        "volatiles": [
+          "Super-Volatiles (CO, Ar)",
+          "H2O"
+        ],
+        "wall_slope_deg": 24.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "faustini_floor",
+        "psr_name": "Faustini Crater Floor",
+        "distance_km": 110.44,
+        "temperature_k": 42,
+        "volatiles": [
+          "H2O Ice",
+          "CH4",
+          "H2S"
+        ],
+        "wall_slope_deg": 22.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shackleton_floor",
+        "psr_name": "Shackleton Crater Floor",
+        "distance_km": 136.28,
+        "temperature_k": 38,
+        "volatiles": [
+          "H2O Ice",
+          "CO2",
+          "NH3",
+          "Organics"
+        ],
+        "wall_slope_deg": 28.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      }
+    ]
+  },
+  {
+    "site_id": "haworth_psr_control",
+    "site_name": "Haworth Crater Interior (PSR Benchmark)",
+    "nearest_psr_name": "Haworth Crater Floor",
+    "nearest_psr_distance_km": 0.04,
+    "nearest_psr_temperature_k": 35,
+    "nearest_psr_volatiles": [
+      "Super-Volatiles (CO, Ar)",
+      "H2O"
+    ],
+    "traverse_classification": "Steep Crater Wall (Requires Tether/Hopper)",
+    "isru_accessibility_index": 66.6,
+    "all_psr_proximity": [
+      {
+        "psr_id": "haworth_floor",
+        "psr_name": "Haworth Crater Floor",
+        "distance_km": 0.04,
+        "temperature_k": 35,
+        "volatiles": [
+          "Super-Volatiles (CO, Ar)",
+          "H2O"
+        ],
+        "wall_slope_deg": 24.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shoemaker_floor",
+        "psr_name": "Shoemaker Crater Floor",
+        "distance_km": 61.85,
+        "temperature_k": 40,
+        "volatiles": [
+          "H2O Surface Frost",
+          "SO2"
+        ],
+        "wall_slope_deg": 19.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shackleton_floor",
+        "psr_name": "Shackleton Crater Floor",
+        "distance_km": 75.82,
+        "temperature_k": 38,
+        "volatiles": [
+          "H2O Ice",
+          "CO2",
+          "NH3",
+          "Organics"
+        ],
+        "wall_slope_deg": 28.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "nobile_micro_psr",
+        "psr_name": "Nobile West Rim Cold Pockets",
+        "distance_km": 99.38,
+        "temperature_k": 68,
+        "volatiles": [
+          "Permafrost Regolith",
+          "Hydrated Silicates"
+        ],
+        "wall_slope_deg": 7.5,
+        "traverse_class": "Beyond Mobile Range (>50 km)",
+        "feasibility_score": 15.0
+      },
+      {
+        "psr_id": "mons_mouton_micro_psr",
+        "psr_name": "Mons Mouton Plateau Depressions",
+        "distance_km": 100.83,
+        "temperature_k": 65,
+        "volatiles": [
+          "Shallow Buried Ice (1m depth)",
+          "OH Minerals"
+        ],
+        "wall_slope_deg": 6.8,
+        "traverse_class": "Beyond Mobile Range (>50 km)",
+        "feasibility_score": 15.0
+      },
+      {
+        "psr_id": "faustini_floor",
+        "psr_name": "Faustini Crater Floor",
+        "distance_km": 117.54,
+        "temperature_k": 42,
+        "volatiles": [
+          "H2O Ice",
+          "CH4",
+          "H2S"
+        ],
+        "wall_slope_deg": 22.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      }
+    ]
+  },
+  {
+    "site_id": "shackleton_peak_b",
+    "site_name": "Peak Near Shackleton (Peak B)",
+    "nearest_psr_name": "Shackleton Crater Floor",
+    "nearest_psr_distance_km": 11.85,
+    "nearest_psr_temperature_k": 38,
+    "nearest_psr_volatiles": [
+      "H2O Ice",
+      "CO2",
+      "NH3",
+      "Organics"
+    ],
+    "traverse_classification": "Steep Crater Wall (Requires Tether/Hopper)",
+    "isru_accessibility_index": 44.2,
+    "all_psr_proximity": [
+      {
+        "psr_id": "shackleton_floor",
+        "psr_name": "Shackleton Crater Floor",
+        "distance_km": 11.85,
+        "temperature_k": 38,
+        "volatiles": [
+          "H2O Ice",
+          "CO2",
+          "NH3",
+          "Organics"
+        ],
+        "wall_slope_deg": 28.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shoemaker_floor",
+        "psr_name": "Shoemaker Crater Floor",
+        "distance_km": 57.26,
+        "temperature_k": 40,
+        "volatiles": [
+          "H2O Surface Frost",
+          "SO2"
+        ],
+        "wall_slope_deg": 19.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "faustini_floor",
+        "psr_name": "Faustini Crater Floor",
+        "distance_km": 81.33,
+        "temperature_k": 42,
+        "volatiles": [
+          "H2O Ice",
+          "CH4",
+          "H2S"
+        ],
+        "wall_slope_deg": 22.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "haworth_floor",
+        "psr_name": "Haworth Crater Floor",
+        "distance_km": 85.89,
+        "temperature_k": 35,
+        "volatiles": [
+          "Super-Volatiles (CO, Ar)",
+          "H2O"
+        ],
+        "wall_slope_deg": 24.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "nobile_micro_psr",
+        "psr_name": "Nobile West Rim Cold Pockets",
+        "distance_km": 141.51,
+        "temperature_k": 68,
+        "volatiles": [
+          "Permafrost Regolith",
+          "Hydrated Silicates"
+        ],
+        "wall_slope_deg": 7.5,
+        "traverse_class": "Beyond Mobile Range (>50 km)",
+        "feasibility_score": 15.0
+      },
+      {
+        "psr_id": "mons_mouton_micro_psr",
+        "psr_name": "Mons Mouton Plateau Depressions",
+        "distance_km": 154.78,
+        "temperature_k": 65,
+        "volatiles": [
+          "Shallow Buried Ice (1m depth)",
+          "OH Minerals"
+        ],
+        "wall_slope_deg": 6.8,
+        "traverse_class": "Beyond Mobile Range (>50 km)",
+        "feasibility_score": 15.0
+      }
+    ]
+  },
+  {
+    "site_id": "faustini_rim_a",
+    "site_name": "Faustini Crater Rim A (Site LM7)",
+    "nearest_psr_name": "Faustini Crater Floor",
+    "nearest_psr_distance_km": 23.96,
+    "nearest_psr_temperature_k": 42,
+    "nearest_psr_volatiles": [
+      "H2O Ice",
+      "CH4",
+      "H2S"
+    ],
+    "traverse_classification": "Steep Crater Wall (Requires Tether/Hopper)",
+    "isru_accessibility_index": 37.2,
+    "all_psr_proximity": [
+      {
+        "psr_id": "faustini_floor",
+        "psr_name": "Faustini Crater Floor",
+        "distance_km": 23.96,
+        "temperature_k": 42,
+        "volatiles": [
+          "H2O Ice",
+          "CH4",
+          "H2S"
+        ],
+        "wall_slope_deg": 22.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shoemaker_floor",
+        "psr_name": "Shoemaker Crater Floor",
+        "distance_km": 41.13,
+        "temperature_k": 40,
+        "volatiles": [
+          "H2O Surface Frost",
+          "SO2"
+        ],
+        "wall_slope_deg": 19.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shackleton_floor",
+        "psr_name": "Shackleton Crater Floor",
+        "distance_km": 63.8,
+        "temperature_k": 38,
+        "volatiles": [
+          "H2O Ice",
+          "CO2",
+          "NH3",
+          "Organics"
+        ],
+        "wall_slope_deg": 28.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "haworth_floor",
+        "psr_name": "Haworth Crater Floor",
+        "distance_km": 101.7,
+        "temperature_k": 35,
+        "volatiles": [
+          "Super-Volatiles (CO, Ar)",
+          "H2O"
+        ],
+        "wall_slope_deg": 24.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "nobile_micro_psr",
+        "psr_name": "Nobile West Rim Cold Pockets",
+        "distance_km": 108.0,
+        "temperature_k": 68,
+        "volatiles": [
+          "Permafrost Regolith",
+          "Hydrated Silicates"
+        ],
+        "wall_slope_deg": 7.5,
+        "traverse_class": "Beyond Mobile Range (>50 km)",
+        "feasibility_score": 15.0
+      },
+      {
+        "psr_id": "mons_mouton_micro_psr",
+        "psr_name": "Mons Mouton Plateau Depressions",
+        "distance_km": 126.56,
+        "temperature_k": 65,
+        "volatiles": [
+          "Shallow Buried Ice (1m depth)",
+          "OH Minerals"
+        ],
+        "wall_slope_deg": 6.8,
+        "traverse_class": "Beyond Mobile Range (>50 km)",
+        "feasibility_score": 15.0
+      }
+    ]
+  },
+  {
+    "site_id": "connecting_ridge_cr1",
+    "site_name": "Connecting Ridge (Site CR1)",
+    "nearest_psr_name": "Shackleton Crater Floor",
+    "nearest_psr_distance_km": 18.48,
+    "nearest_psr_temperature_k": 38,
+    "nearest_psr_volatiles": [
+      "H2O Ice",
+      "CO2",
+      "NH3",
+      "Organics"
+    ],
+    "traverse_classification": "Steep Crater Wall (Requires Tether/Hopper)",
+    "isru_accessibility_index": 35.5,
+    "all_psr_proximity": [
+      {
+        "psr_id": "shackleton_floor",
+        "psr_name": "Shackleton Crater Floor",
+        "distance_km": 18.48,
+        "temperature_k": 38,
+        "volatiles": [
+          "H2O Ice",
+          "CO2",
+          "NH3",
+          "Organics"
+        ],
+        "wall_slope_deg": 28.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shoemaker_floor",
+        "psr_name": "Shoemaker Crater Floor",
+        "distance_km": 73.73,
+        "temperature_k": 40,
+        "volatiles": [
+          "H2O Surface Frost",
+          "SO2"
+        ],
+        "wall_slope_deg": 19.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "haworth_floor",
+        "psr_name": "Haworth Crater Floor",
+        "distance_km": 90.47,
+        "temperature_k": 35,
+        "volatiles": [
+          "Super-Volatiles (CO, Ar)",
+          "H2O"
+        ],
+        "wall_slope_deg": 24.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "faustini_floor",
+        "psr_name": "Faustini Crater Floor",
+        "distance_km": 100.56,
+        "temperature_k": 42,
+        "volatiles": [
+          "H2O Ice",
+          "CH4",
+          "H2S"
+        ],
+        "wall_slope_deg": 22.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "nobile_micro_psr",
+        "psr_name": "Nobile West Rim Cold Pockets",
+        "distance_km": 157.09,
+        "temperature_k": 68,
+        "volatiles": [
+          "Permafrost Regolith",
+          "Hydrated Silicates"
+        ],
+        "wall_slope_deg": 7.5,
+        "traverse_class": "Beyond Mobile Range (>50 km)",
+        "feasibility_score": 15.0
+      },
+      {
+        "psr_id": "mons_mouton_micro_psr",
+        "psr_name": "Mons Mouton Plateau Depressions",
+        "distance_km": 168.97,
+        "temperature_k": 65,
+        "volatiles": [
+          "Shallow Buried Ice (1m depth)",
+          "OH Minerals"
+        ],
+        "wall_slope_deg": 6.8,
+        "traverse_class": "Beyond Mobile Range (>50 km)",
+        "feasibility_score": 15.0
+      }
+    ]
+  },
+  {
+    "site_id": "de_gerlache_rim_1",
+    "site_name": "de Gerlache Crater Rim 1",
+    "nearest_psr_name": "Shackleton Crater Floor",
+    "nearest_psr_distance_km": 44.45,
+    "nearest_psr_temperature_k": 38,
+    "nearest_psr_volatiles": [
+      "H2O Ice",
+      "CO2",
+      "NH3",
+      "Organics"
+    ],
+    "traverse_classification": "Steep Crater Wall (Requires Tether/Hopper)",
+    "isru_accessibility_index": 16.8,
+    "all_psr_proximity": [
+      {
+        "psr_id": "shackleton_floor",
+        "psr_name": "Shackleton Crater Floor",
+        "distance_km": 44.45,
+        "temperature_k": 38,
+        "volatiles": [
+          "H2O Ice",
+          "CO2",
+          "NH3",
+          "Organics"
+        ],
+        "wall_slope_deg": 28.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "haworth_floor",
+        "psr_name": "Haworth Crater Floor",
+        "distance_km": 70.98,
+        "temperature_k": 35,
+        "volatiles": [
+          "Super-Volatiles (CO, Ar)",
+          "H2O"
+        ],
+        "wall_slope_deg": 24.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "shoemaker_floor",
+        "psr_name": "Shoemaker Crater Floor",
+        "distance_km": 86.81,
+        "temperature_k": 40,
+        "volatiles": [
+          "H2O Surface Frost",
+          "SO2"
+        ],
+        "wall_slope_deg": 19.5,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "faustini_floor",
+        "psr_name": "Faustini Crater Floor",
+        "distance_km": 130.01,
+        "temperature_k": 42,
+        "volatiles": [
+          "H2O Ice",
+          "CH4",
+          "H2S"
+        ],
+        "wall_slope_deg": 22.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
+        "psr_id": "nobile_micro_psr",
+        "psr_name": "Nobile West Rim Cold Pockets",
+        "distance_km": 159.83,
+        "temperature_k": 68,
+        "volatiles": [
+          "Permafrost Regolith",
+          "Hydrated Silicates"
+        ],
+        "wall_slope_deg": 7.5,
+        "traverse_class": "Beyond Mobile Range (>50 km)",
+        "feasibility_score": 15.0
+      },
+      {
+        "psr_id": "mons_mouton_micro_psr",
+        "psr_name": "Mons Mouton Plateau Depressions",
+        "distance_km": 166.63,
+        "temperature_k": 65,
+        "volatiles": [
+          "Shallow Buried Ice (1m depth)",
+          "OH Minerals"
+        ],
+        "wall_slope_deg": 6.8,
+        "traverse_class": "Beyond Mobile Range (>50 km)",
+        "feasibility_score": 15.0
+      }
+    ]
+  }
+]

@@ -73,5 +73,31 @@ class TestLunarEngine(unittest.TestCase):
         self.assertGreater(x_east, 100.0)
         self.assertAlmostEqual(y_east, 0.0, places=2)
 
+    def test_descent_trajectory_simulation(self):
+        """Test powered descent simulation and comm link margin calculations."""
+        from engine.descent_trajectory import DescentTrajectorySimulator
+        sim = DescentTrajectorySimulator(burn_time_s=600.0)
+        res = sim.compute_trajectory(
+            site_lat=-84.79,
+            site_lon=29.2,
+            site_elev_m=6000.0,
+            earth_elev_deg=5.0,
+            earth_az_deg=40.0,
+            horizon_elev_deg=0.5
+        )
+        self.assertEqual(res["flight_comm_status"], "NOMINAL LOCK")
+        self.assertGreaterEqual(res["comm_lock_percentage"], 99.0)
+        self.assertGreater(res["final_touchdown_snr_db"], 10.0)
+        self.assertEqual(len(res["profile_steps"]), 61)
+
+    def test_horizon_panorama_profile(self):
+        """Test 360-degree synthetic horizon panorama generation."""
+        from engine.horizon_panorama import HorizonPanoramaGenerator
+        gen = HorizonPanoramaGenerator()
+        profile = gen.generate_skyline_profile("haworth_psr_control", step_deg=5.0)
+        self.assertEqual(len(profile["azimuths_deg"]), 73)
+        self.assertGreater(profile["mean_horizon_deg"], 5.0)
+        self.assertGreater(profile["max_horizon_deg"], 8.0)
+
 if __name__ == "__main__":
     unittest.main()

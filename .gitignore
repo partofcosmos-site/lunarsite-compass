@@ -17,3 +17,7 @@ Thumbs.db
 
 # Streamlit Cache
 .streamlit/
+
+# Workflow Logs and Dynamic Prompts
+logs/
+data/current_workflow_prompt.txt

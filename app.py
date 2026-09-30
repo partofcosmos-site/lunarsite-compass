@@ -11,6 +11,7 @@ import streamlit as st
 import plotly.graph_objects as go
 from datetime import datetime, timezone
 from engine.polar_map import create_polar_geospatial_figure, polar_to_xy
+from engine.horizon_panorama import HorizonPanoramaGenerator
 
 st.set_page_config(
     page_title="LunarSite Compass | CLPS Mission Browser",
@@ -62,6 +63,7 @@ def load_data():
     summary_path = os.path.join(base_dir, "data", "mission_summary_matrix.json")
     telemetry_path = os.path.join(base_dir, "data", "mission_telemetry_2026.csv")
     seasonal_path = os.path.join(base_dir, "data", "seasonal_benchmark_analysis.json")
+    isru_path = os.path.join(base_dir, "data", "sites_isru_analysis.json")
     
     with open(summary_path, "r", encoding="utf-8") as f:
         summaries = json.load(f)
@@ -73,15 +75,20 @@ def load_data():
     if os.path.exists(seasonal_path):
         with open(seasonal_path, "r", encoding="utf-8") as f:
             seasonal_data = json.load(f)
+
+    isru_data = []
+    if os.path.exists(isru_path):
+        with open(isru_path, "r", encoding="utf-8") as f:
+            isru_data = json.load(f)
             
-    return summaries, df_telemetry, seasonal_data
+    return summaries, df_telemetry, seasonal_data, isru_data
 
 def main():
     st.markdown('<div class="main-header">🌕 LunarSite Compass</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Temporal Illumination & Earth-Communication Window Browser for CLPS South Pole Landers</div>', unsafe_allow_html=True)
 
     try:
-        summaries, df_telemetry, seasonal_data = load_data()
+        summaries, df_telemetry, seasonal_data, isru_data = load_data()
     except Exception as e:
         st.error(f"Please run scripts/generate_mission_data.py first to pre-compute telemetry: {e}")
         return
@@ -147,11 +154,12 @@ def main():
         )
 
     # Main Visualizer Tabs
-    tab_map, tab_timeline, tab_comparison, tab_seasons, tab_methodology = st.tabs([
+    tab_map, tab_timeline, tab_comparison, tab_seasons, tab_isru, tab_methodology = st.tabs([
         "🗺️ Polar Geospatial Map",
         "📈 Temporal Window Telemetry", 
         "⚖️ Multi-Site Comparative Scorecard", 
         "❄️ Four-Season Orbital Stress Test",
+        "🧊 ISRU Volatiles & Rover Traverse",
         "🔬 Scientific Methodology & Math"
     ])
 
@@ -290,6 +298,22 @@ def main():
         )
         st.plotly_chart(fig_status, use_container_width=True)
 
+        # 360-Degree Synthetic Horizon Panorama
+        st.subheader("🔭 360° Cylindrical Horizon Skyline & Celestial Silhouette (TRN Navigation)")
+        st.caption("Synthetic LOLA horizon silhouette surrounding the lander. Used by Terrain Relative Navigation (TRN) optical cameras to cross-reference physical terrain against astronomical line-of-sight.")
+        
+        pano_gen = HorizonPanoramaGenerator()
+        latest_row = df_site.iloc[0]
+        fig_skyline = pano_gen.create_cylindrical_panorama_figure(
+            site_id=site_id,
+            site_name=selected_site["site_name"],
+            sun_az=float(latest_row["sun_azimuth_deg"]),
+            sun_el=float(latest_row["sun_elevation_deg"]),
+            earth_az=float(latest_row["earth_azimuth_deg"]),
+            earth_el=float(latest_row["earth_elevation_deg"])
+        )
+        st.plotly_chart(fig_skyline, use_container_width=True)
+
     with tab_comparison:
         st.subheader("Candidate Landing Site Strategic Comparison")
         st.write("Compare multi-criteria tradeoffs between solar energy autonomy, communication continuous windows, and surface slope safety.")
@@ -394,8 +418,80 @@ def main():
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
             )
             st.plotly_chart(fig_season, use_container_width=True)
+    with tab_isru:
+        st.subheader("🧊 ISRU Water-Ice Cold Trap Proximity & Rover Traverse Analysis")
+        st.caption("Quantifies distance, thermal stability regimes (T < 40K to 70K), and surface slope traversability between candidate landing sites and Permanently Shadowed Region (PSR) volatile cold traps.")
+
+        if isru_data:
+            # Summary Table of ISRU Potential
+            isru_summary_rows = []
+            for r in isru_data:
+                isru_summary_rows.append({
+                    "Landing Site": r["site_name"],
+                    "Nearest Cold Trap": r["nearest_psr_name"],
+                    "Distance (km)": r["nearest_psr_distance_km"],
+                    "Temp (K)": f"{r['nearest_psr_temperature_k']} K",
+                    "Trapped Volatiles": ", ".join(r["nearest_psr_volatiles"][:2]),
+                    "Mobility Class": r["traverse_classification"],
+                    "ISRU Index (/100)": r["isru_accessibility_index"]
+                })
+            
+            df_isru_table = pd.DataFrame(isru_summary_rows).sort_values("ISRU Index (/100)", ascending=False)
+            st.dataframe(df_isru_table, use_container_width=True, hide_index=True)
+
+            # ISRU Accessibility Bar Chart
+            fig_isru = go.Figure()
+            fig_isru.add_trace(go.Bar(
+                x=df_isru_table["Landing Site"],
+                y=df_isru_table["ISRU Index (/100)"],
+                marker=dict(
+                    color=df_isru_table["ISRU Index (/100)"],
+                    colorscale="Blues",
+                    showscale=True,
+                    colorbar=dict(title="ISRU Score")
+                ),
+                text=df_isru_table["ISRU Index (/100)"],
+                textposition="auto"
+            ))
+            fig_isru.update_layout(
+                title="In-Situ Resource Utilization (ISRU) Accessibility Score by Candidate Site",
+                template="plotly_dark",
+                height=380,
+                margin=dict(l=20, r=20, t=40, b=20),
+                yaxis_title="ISRU Accessibility Index (/100)"
+            )
+            st.plotly_chart(fig_isru, use_container_width=True)
+
+            # Selected Site Proximity Deep Dive
+            st.markdown("---")
+            st.subheader(f"🔍 Volatile Reservoir Proximity Matrix for: {selected_site['site_name']}")
+            
+            # Find current site's ISRU record
+            curr_isru = next((x for x in isru_data if x["site_id"] == site_id), None)
+            if curr_isru:
+                ic1, ic2, ic3 = st.columns(3)
+                with ic1:
+                    st.metric("Nearest Cold Trap", curr_isru["nearest_psr_name"], f"{curr_isru['nearest_psr_distance_km']} km")
+                with ic2:
+                    st.metric("Cryogenic Temperature", f"{curr_isru['nearest_psr_temperature_k']} K", "Thermal Stability")
+                with ic3:
+                    st.metric("ISRU Accessibility", f"{curr_isru['isru_accessibility_index']} / 100", curr_isru["traverse_classification"])
+
+                # Detailed breakdown of all 6 PSR targets for this site
+                st.write("**Range & Traverse Difficulty to All Major South Pole Cryogenic Reservoirs:**")
+                all_psr_rows = []
+                for p in curr_isru["all_psr_proximity"]:
+                    all_psr_rows.append({
+                        "Cryogenic Reservoir": p["psr_name"],
+                        "Distance (km)": p["distance_km"],
+                        "Temp (K)": f"{p['temperature_k']} K",
+                        "Wall Slope (°)": f"{p['wall_slope_deg']}°",
+                        "Traverse Feasibility": p["traverse_class"],
+                        "Volatiles Expected": ", ".join(p["volatiles"])
+                    })
+                st.dataframe(pd.DataFrame(all_psr_rows), use_container_width=True, hide_index=True)
         else:
-            st.info("Run scripts/run_seasonal_simulation.py to view multi-season stress data.")
+            st.info("Run scripts/generate_isru_data.py to compute volatile cold-trap proximity.")
 
     with tab_methodology:
         st.subheader("Mathematical Model & Technical Architecture")
