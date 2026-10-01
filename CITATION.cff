@@ -4,7 +4,7 @@ title: "LunarSite Compass: Deterministic Temporal Horizon Ray-Casting & Dual-Con
 abstract: "An open-source astrodynamics and planetary topography platform computing exact topocentric ephemerides, spherical geodesic ray-casting with lunar curvature drop, and dual-constraint power and communication windows for lunar polar missions using NASA JPL Horizons and LRO LOLA DEM datasets."
 authors:
   - name: "Team Antigravity"
-    affiliation: "Secondary School Explorers & Aerospace Systems Laboratory"
+    affiliation: "Autonomous Aerospace Systems Laboratory, Team Antigravity"
     email: "partofcosmmos@gmail.com"
 repository-code: "https://github.com/partofcosmos-site/lunarsite-compass"
 url: "https://lunarsite-compass.vercel.app"

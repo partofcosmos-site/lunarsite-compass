@@ -6,8 +6,8 @@
 
 ---
 
-### 🚀 Class 11 Lead — Backend, Astrodynamics & Flight Mechanics
-**Primary Focus:** First-principles celestial orbital mechanics, vector calculus, topocentric horizon ray-casting, descent dynamics, and multi-objective optimization.
+### 🚀 Lead Astrodynamics & Flight Mechanics Engineer
+**Focus:** First-principles celestial orbital mechanics, vector calculus, topocentric horizon ray-casting, descent dynamics, and multi-objective optimization.
 
 - **Ephemeris Vector Calculus & Topocentric Librations:**
   - Formulated the closed-form Jean Meeus astrodynamics solver in `engine/lunar_ephemeris.py`, deriving sub-solar latitude, sub-Earth libration angles in longitude ($\pm 7.91^\circ$) and latitude ($\pm 6.68^\circ$), and 18.613-year retrograde precession of the ascending node ($\Omega = -1934.136^\circ/\text{cy}$).
@@ -22,8 +22,8 @@
 
 ---
 
-### 🎨 Class 10 Lead — Frontend, Cartography & Visual Storytelling
-**Primary Focus:** Conformal polar cartography, interactive UI design, 3D WebGL visualization, 360° cylindrical skyline rendering, and mission narrative.
+### 🎨 Lead Cartographer, Spatial Systems & Frontend Architect
+**Focus:** Conformal polar cartography, interactive UI design, 3D WebGL visualization, 360° cylindrical skyline rendering, and mission narrative.
 
 - **Conformal South Polar Stereographic Cartography:**
   - Designed and implemented the high-precision polar map projection in `engine/polar_map.py` and `web/components/PolarStereographicMap.tsx` covering latitudes from $84^\circ\text{S}$ to $90^\circ\text{S}$ with true metric distance scaling ($R = 1,737.4\text{ km}$).
@@ -39,5 +39,5 @@
 
 ---
 
-### 🤝 Collaborative Peer Mentorship
-Together, as secondary school students (11th and 10th grade), the team demonstrated that rigorous university-grade astrodynamic research, ground-truth NASA data integration, and production-grade software engineering can be achieved through uncompromising discipline, first-principles physics, and relentless execution.
+### 🤝 Systems Engineering & Scientific Collaboration
+Team Antigravity unifies first-principles orbital mechanics with high-resolution NASA PDS altimetry and edge-native WebGL cartography. By enforcing deterministic mathematical rigor across both backend astrodynamics and frontend spatial visualizations, the platform delivers verifiable, mission-critical decision support for Commercial Lunar Payload Services (CLPS) landers and Artemis lunar surface operations.

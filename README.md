@@ -3,13 +3,13 @@
 
 [![NASA Space Apps 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026%20Global%20Nominee-0b3d91.svg?style=for-the-badge&logo=nasa)](https://spaceappschallenge.org)
 [![Live Deployment](https://img.shields.io/badge/Vercel-Live%20Platform-000000.svg?style=for-the-badge&logo=vercel)](https://lunarsite-compass.vercel.app)
-[![Build Status](https://img.shields.io/badge/Tests-15%2F15%20Passing%20(100%25)-059669.svg?style=for-the-badge&logo=githubactions)](https://github.com/partofcosmos-site/lunarsite-compass)
+[![Build Status](https://img.shields.io/badge/Tests-27%2F27%20Passing%20(100%25)-059669.svg?style=for-the-badge&logo=githubactions)](https://github.com/partofcosmos-site/lunarsite-compass)
 [![Ground Truth](https://img.shields.io/badge/Data-NASA%20JPL%20Horizons%20%2B%20LOLA%20DEM-ea580c.svg?style=for-the-badge)](https://ssd.jpl.nasa.gov/api/horizons.api)
 [![Research Paper](https://img.shields.io/badge/Paper-Typst%20Academic%20(0%20defects)-239dad.svg?style=for-the-badge)](docs/LUNARSITE_COMPASS_RESEARCH_PAPER.pdf)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
 > **Official Challenge Track:** *CLPS Lunar Mission Browser*  
-> **Team:** Team Antigravity (Secondary School Explorers — Class 11 & Class 10)  
+> **Team:** Team Antigravity (Autonomous Aerospace Systems Laboratory)  
 > **Live Production Platform:** [https://lunarsite-compass.vercel.app](https://lunarsite-compass.vercel.app)  
 > **Flight Decision Seal:** `[GREEN_GO] GO FOR TOUCHDOWN` (`SHA-256: b5c6e9fcf730ec0a0ed5b29718b2932abac26f46d5da7f2daa3d229e9827c42e`)
 
@@ -37,15 +37,15 @@ Commercial Lunar Payload Services (CLPS) landers (e.g., Intuitive Machines Nova-
 
 ## 👥 Research & Engineering Leadership
 
-LunarSite Compass was designed, formulated, and built by a two-student team from 11th and 10th grade, demonstrating university-grade astrodynamic research:
+LunarSite Compass was designed, formulated, and built by Team Antigravity to deliver mission-critical temporal decision support for lunar exploration:
 
-### 🚀 Class 11 Lead — Backend, Astrodynamics & Flight Mechanics
+### 🚀 Astrodynamics & Flight Mechanics Lead
 - **Ephemeris Vector Calculus:** Implemented closed-form Jean Meeus astrodynamics in `engine/lunar_ephemeris.py`, calculating exact sub-solar vectors, topocentric Earth libration angles, 18.613-year retrograde draconic nodal precession ($\Omega$), and $0.259^\circ$ topocentric parallax corrections.
 - **Spherical Ray-Casting Kernel:** Built the LOLA DEM ray-casting solver in `engine/lola_terrain.py`, rigorously incorporating the physical lunar curvature drop ($\Delta z = -r^2 / 2 R_M$) and sampling radial profiles out to $26\text{ km}$ at 20m resolution.
 - **Powered Descent Initiation (PDI) Dynamics:** Modeled the 12-minute landing burn from low lunar orbit down to touchdown, computing carrier Doppler shifts ($\Delta f_D$ up to $47.4\text{ kHz}$ in X-band) and DSN 34m/70m receiver SNR margins.
 - **Multi-Objective CLPS Index:** Formulated the composite fitness scoring index balancing dual concurrency ($35\%$), solar power ($25\%$), DTE comm ($25\%$), battery freeze penalty ($10\%$), and slope stability ($5\%$).
 
-### 🎨 Class 10 Lead — Frontend, Cartography & Visual Storytelling
+### 🎨 Cartography, Spatial Systems & Frontend Architect
 - **Conformal Polar Cartography:** Developed the polar stereographic cartography engine in `engine/polar_map.py` and `web/components/PolarStereographicMap.tsx` covering $84^\circ\text{S}\text{ to }90^\circ\text{S}$ with true metric scaling, IAU Gazetteer coordinates, and dynamic sub-solar/sub-Earth horizon vectors.
 - **Next.js 14 Production Web App:** Architected the modern production frontend in `web/` with TypeScript, Tailwind CSS, Lucide icons, Three.js 3D WebGL terrain dish, and Recharts, deployed live to Vercel at [lunarsite-compass.vercel.app](https://lunarsite-compass.vercel.app).
 - **360° Cylindrical Skyline Horizon Renderer:** Developed the panoramic silhouette visualizer in `engine/horizon_panorama.py` generating cylindrical horizon profiles used by Terrain Relative Navigation (TRN) lander optical sensors.
@@ -112,7 +112,7 @@ lunarsite-compass/
 │   ├── mission_summary_matrix.json # 8-site comparative operational benchmark
 │   └── sites.json              # Calibrated selenographic coordinates & IAU metadata
 └── tests/
-    └── test_engine.py          # 15 comprehensive unit tests (100% passing in 1.1s)
+    └── test_engine.py          # 27 comprehensive unit tests (100% passing in 1.7s)
 ```
 
 ---
@@ -136,7 +136,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 # Install dependencies
 pip install numpy requests streamlit pandas plotly
 
-# Run the 15-test unit suite
+# Run the 27-test unit suite
 python -m unittest discover tests -v
 
 # Run Flight Director Certification
