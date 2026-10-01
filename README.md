@@ -156,16 +156,6 @@ npm run start
 
 ---
 
-## 📄 License & Academic Citation
+## 📄 License
 
 - **Software License:** [MIT License](LICENSE)
-- **Academic Citation:** Please refer to [`CITATION.cff`](CITATION.cff) or cite:
-  ```bibtex
-  @software{lunarsite_compass_2026,
-    author = {Team Antigravity},
-    title = {LunarSite Compass: Deterministic Temporal Horizon Ray-Casting & Dual-Constraint Mission Windows for CLPS Lunar South Pole Landers},
-    year = {2026},
-    url = {https://lunarsite-compass.vercel.app},
-    note = {NASA International Space Apps Challenge 2026}
-  }
-  ```

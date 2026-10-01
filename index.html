@@ -77,10 +77,6 @@
         </div>
       </div>
       <div class="flex items-center space-x-3">
-        <button onclick="openCitationModal()" class="text-xs bg-space-800 hover:bg-space-700 text-cyanAccent border border-cyan-500/40 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition cursor-pointer shadow-sm">
-          <i class="fa-solid fa-quote-left"></i>
-          <span>Cite</span>
-        </button>
         <a href="docs/LUNARSITE_COMPASS_RESEARCH_PAPER.pdf" target="_blank" class="text-xs bg-space-800 hover:bg-space-700 text-slate-200 border border-space-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
           <i class="fa-solid fa-file-pdf text-red-400"></i>
           <span>Research Paper (PDF)</span>
@@ -506,10 +502,6 @@
       <p class="font-medium text-slate-400">🌕 LunarSite Compass &copy; 2026 Team Antigravity. NASA International Space Apps Challenge.</p>
       <p class="text-[11px] text-slate-600">Built with pure spherical vector astrodynamics • Calibrated against LOLA DEM and JPL Horizons • Verified with 0 defects</p>
       <div class="pt-2 flex items-center justify-center gap-4 text-xs font-mono text-slate-400">
-        <button onclick="openCitationModal()" class="hover:text-cyanAccent underline underline-offset-4 cursor-pointer transition">
-          <i class="fa-solid fa-quote-right mr-1 text-cyanAccent"></i>Cite Platform (BibTeX / APA)
-        </button>
-        <span>•</span>
         <a href="https://github.com/partofcosmos-site/lunarsite-compass" target="_blank" class="hover:text-cyanAccent underline underline-offset-4 transition">
           <i class="fa-brands fa-github mr-1"></i>GitHub
         </a>
@@ -520,71 +512,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- Citation Modal -->
-  <div id="citationModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-    <div class="relative w-full max-w-2xl rounded-2xl bg-space-900 border border-slate-700 shadow-2xl p-6 sm:p-8 space-y-6 text-slate-300 text-xs sm:text-sm">
-      <!-- Modal Header -->
-      <div class="flex items-center justify-between border-b border-space-800 pb-4">
-        <div class="flex items-center gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/20 text-cyanAccent border border-cyan-500/40 text-lg">
-            <i class="fa-solid fa-quote-left"></i>
-          </div>
-          <div class="text-left">
-            <h2 class="text-lg sm:text-xl font-bold text-white">Academic & Software Citation</h2>
-            <p class="text-xs text-slate-400">NASA Space Apps 2026 • Autonomous Aerospace Systems Laboratory</p>
-          </div>
-        </div>
-        <button onclick="closeCitationModal()" class="p-2 rounded-lg bg-space-800 text-slate-400 hover:text-white hover:bg-space-700 transition">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
-      </div>
-
-      <!-- BibTeX Block -->
-      <div class="space-y-2 text-left">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-            <i class="fa-solid fa-bookmark text-cyanAccent"></i> BibTeX Format
-          </span>
-          <button id="copyBibtexBtn" onclick="copyBibtexText()" class="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-space-800 hover:bg-space-700 text-slate-200 border border-space-700 transition cursor-pointer">
-            <i class="fa-regular fa-copy"></i>
-            <span id="bibtexBtnText">Copy BibTeX</span>
-          </button>
-        </div>
-        <pre id="bibtexContent" class="p-4 rounded-xl bg-space-950 border border-space-800 font-mono text-[11px] sm:text-xs text-cyanAccent overflow-x-auto select-all leading-relaxed whitespace-pre">@software{lunarsite_compass_2026,
-  author       = {Team Antigravity},
-  title        = {LunarSite Compass: Deterministic Temporal Horizon Ray-Casting & Dual-Constraint Mission Windows for CLPS Lunar South Pole Landers},
-  organization = {Autonomous Aerospace Systems Laboratory},
-  year         = {2026},
-  url          = {https://lunarsite-compass.vercel.app},
-  note         = {NASA International Space Apps Challenge 2026, Track: CLPS Lunar Mission Browser}
-}</pre>
-      </div>
-
-      <!-- APA Format Block -->
-      <div class="space-y-2 text-left">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold text-slate-200 uppercase tracking-wider">APA Format</span>
-          <button id="copyApaBtn" onclick="copyApaText()" class="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-space-800 hover:bg-space-700 text-slate-200 border border-space-700 transition cursor-pointer">
-            <i class="fa-regular fa-copy"></i>
-            <span id="apaBtnText">Copy APA</span>
-          </button>
-        </div>
-        <div id="apaContent" class="p-3 rounded-xl bg-space-950 border border-space-800 text-xs text-slate-300 font-sans leading-relaxed select-all">Team Antigravity. (2026). LunarSite Compass: Deterministic Temporal Horizon Ray-Casting & Dual-Constraint Mission Windows for CLPS Lunar South Pole Landers. Autonomous Aerospace Systems Laboratory. https://lunarsite-compass.vercel.app</div>
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="pt-2 flex items-center justify-between border-t border-space-800">
-        <a href="https://github.com/partofcosmos-site/lunarsite-compass" target="_blank" class="text-xs text-slate-400 hover:text-cyanAccent flex items-center gap-1.5 transition">
-          <i class="fa-brands fa-github"></i>
-          <span>GitHub Repository</span>
-        </a>
-        <button onclick="closeCitationModal()" class="px-4 py-1.5 rounded-xl bg-cyan-600/30 text-cyanAccent border border-cyan-500/40 hover:bg-cyan-600/40 font-medium transition text-xs cursor-pointer">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
 
   <!-- Application Logic -->
   <script>
@@ -1121,7 +1048,7 @@
       } else {
         certTitle.className = 'text-2xl font-black text-amber-400 mt-2 flex items-center gap-2';
         certTitle.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> CONDITIONAL / NO-GO';
-        certSummary.textContent = `Candidate site ${site.site_name} exhibits constraints below nominal thresholds (Dual-Op: ${site.max_continuous_dual_days}d, Slope: ${site.slope_deg}°, Max Night: ${site.max_continuous_night_hours}h). Requires relay satellite or rover traverse mitigation.`;
+        certSummary.textContent = `Candidate site ${site.site_name} exhibits constraints below nominal thresholds (Dual-Op: ${site.max_continuous_dual_days}d, Slope: ${site.slope_deg}°, Max Night: ${site.max_continuous_night_hours}h). Requires relay satellite or rover traverse alternative.`;
       }
     }
 
@@ -1133,44 +1060,6 @@
         pill.className = `status-pill font-bold ${passed ? 'text-emerald-400' : 'text-rose-400'}`;
         pill.textContent = passed ? 'PASS' : 'FAIL';
       }
-    }
-
-    function openCitationModal() {
-      const modal = document.getElementById('citationModal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-      }
-    }
-
-    function closeCitationModal() {
-      const modal = document.getElementById('citationModal');
-      if (modal) {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-      }
-    }
-
-    function copyBibtexText() {
-      const text = document.getElementById('bibtexContent').innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        const btnText = document.getElementById('bibtexBtnText');
-        if (btnText) {
-          btnText.textContent = 'Copied!';
-          setTimeout(() => { btnText.textContent = 'Copy BibTeX'; }, 2000);
-        }
-      });
-    }
-
-    function copyApaText() {
-      const text = document.getElementById('apaContent').innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        const btnText = document.getElementById('apaBtnText');
-        if (btnText) {
-          btnText.textContent = 'Copied!';
-          setTimeout(() => { btnText.textContent = 'Copy APA'; }, 2000);
-        }
-      });
     }
 
     // Run on page load
