@@ -21,3 +21,12 @@ Thumbs.db
 # Workflow Logs and Dynamic Prompts
 logs/
 data/current_workflow_prompt.txt
+
+# Node / Web Frontend
+node_modules/
+.next/
+out/
+build/
+dist/
+.env*
+*.local
