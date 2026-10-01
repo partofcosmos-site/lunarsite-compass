@@ -48,8 +48,9 @@ def certify_landing_mission(
     epoch_ts = dt.timestamp()
 
     # 1. Ephemeris at Touchdown
-    sun_az, sun_el = ephemeris.get_solar_vector(site["latitude"], site["longitude"], epoch_ts)
-    earth_az, earth_el = ephemeris.get_earth_vector(site["latitude"], site["longitude"], epoch_ts)
+    site_elev = site.get("elevation_m", 0.0)
+    sun_az, sun_el = ephemeris.get_solar_vector(site["latitude"], site["longitude"], epoch_ts, site_elev_m=site_elev)
+    earth_az, earth_el = ephemeris.get_earth_vector(site["latitude"], site["longitude"], epoch_ts, site_elev_m=site_elev)
 
     sun_horiz = terrain.get_horizon_elevation(site["id"], sun_az)
     earth_horiz = terrain.get_horizon_elevation(site["id"], earth_az)

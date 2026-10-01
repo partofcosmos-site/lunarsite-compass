@@ -46,8 +46,9 @@ def main():
         site_name = s["name"]
         lat = s["latitude"]
         lon = s["longitude"]
+        elev = s.get("elevation_m", 0.0)
         
-        print(f"[*] Solving site: {site_name} (Lat: {lat}°, Lon: {lon}°)...")
+        print(f"[*] Solving site: {site_name} (Lat: {lat}°, Lon: {lon}°, Elev: {elev}m)...")
         df, metrics = solver.evaluate_site_window(
             site_id=site_id,
             site_name=site_name,
@@ -55,7 +56,8 @@ def main():
             lon_deg=lon,
             start_date=start_date,
             duration_days=duration_days,
-            step_hours=step_hours
+            step_hours=step_hours,
+            site_elev_m=elev
         )
         
         metrics["slope_deg"] = s["slope_deg"]

@@ -228,14 +228,14 @@ We conducted a high-fidelity 720-hour simulation spanning the 30-day lunar synod
   [#text(8pt, weight: "bold")[Max Dark]],
   [#text(8pt, weight: "bold")[Score]],
 
-  [Peak Near Shackleton (Peak B)], [-89.68], [129.0], [13.8$degree$], [30.0], [13.2], [13.2], [0 h], [*66.4*],
-  [Connecting Ridge (Site CR1)], [-89.47], [222.6], [14.5$degree$], [30.0], [12.0], [12.0], [0 h], [*64.0*],
-  [IM-2 Athena (Mons Mouton)], [-84.79], [29.2], [5.2$degree$], [16.2], [19.3], [16.2], [326 h], [*53.7*],
-  [VIPER Target (Mons Mouton)], [-85.42], [31.6], [4.8$degree$], [16.3], [18.7], [16.2], [327 h], [*52.7*],
-  [Nobile Rim 1 (West Rim)], [-85.44], [37.4], [5.5$degree$], [16.0], [18.2], [16.0], [322 h], [*51.6*],
-  [Faustini Crater Rim A], [-87.89], [85.0], [9.8$degree$], [15.9], [13.0], [12.0], [244 h], [*43.3*],
-  [de Gerlache Crater Rim 1], [-88.50], [-68.3], [11.2$degree$], [9.3], [12.0], [2.5], [344 h], [*27.0*],
-  [Haworth Crater (PSR Control)], [-87.40], [-5.2], [8.3$degree$], [0.0], [5.4], [0.0], [720 h], [*3.6*],
+  [Connecting Ridge (Site CR1)], [-89.47], [222.6], [14.5$degree$], [22.6], [13.5], [13.2], [170 h], [*54.1*],
+  [IM-2 Athena (Mons Mouton)], [-84.79], [29.2], [5.2$degree$], [15.7], [22.2], [15.7], [338 h], [*51.4*],
+  [VIPER Target (Mons Mouton)], [-85.42], [31.6], [4.8$degree$], [16.0], [21.0], [14.0], [279 h], [*50.4*],
+  [Faustini Crater Rim A], [-87.89], [85.0], [9.8$degree$], [11.5], [9.7], [4.0], [271 h], [*25.3*],
+  [de Gerlache Crater Rim 1], [-88.50], [-68.3], [11.2$degree$], [15.7], [7.9], [1.6], [284 h], [*24.6*],
+  [Nobile Rim 1 (West Rim)], [-85.44], [37.4], [5.5$degree$], [8.2], [8.8], [1.7], [272 h], [*18.2*],
+  [Peak Near Shackleton (Peak B)], [-89.44], [218.2], [8.5$degree$], [11.9], [3.1], [0.0], [240 h], [*16.8*],
+  [Haworth Crater (PSR Control)], [-87.45], [-5.2], [8.3$degree$], [0.0], [0.0], [0.0], [720 h], [*0.0*],
 )
 
 #v(6pt)
@@ -244,8 +244,8 @@ We conducted a high-fidelity 720-hour simulation spanning the 30-day lunar synod
 
 The empirical data reveals a critical operational tradeoff that challenges conventional wisdom in lunar mission planning:
 
-- *The Shackleton Deception:* Rims immediately adjacent to the South Pole (Shackleton Peak B and Connecting Ridge) achieve 100% continuous illumination throughout November 2026 ($30.0 "days"$). However, their surface slopes ($13.8 degree$ and $14.5 degree$) approach the tipping threshold of commercial landers ($15 degree$). Furthermore, because Earth sits very close to the local horizon ($alpha_earth approx 0.5 degree "to" 2.0 degree$), terrain occultation restricts direct communication to only $13.2 "days"$.
-- *The Mons Mouton Advantage:* In contrast, the Mons Mouton plateau ($84.79 degree "S"$, $29.20 degree "E"$) features expansive flat landing corridors with average slopes of only $4.8 degree$ to $5.2 degree$. Because it is situated at lower polar latitude and elevated $6 "km"$ above surrounding terrain, the Earth remains high in the sky ($alpha_earth approx 4.5 degree "to" 6.8 degree$), providing over *19.3 continuous days of uninterrupted DTE communication*.
+- *The Shackleton Dilemma:* Rims immediately adjacent to the South Pole (such as Connecting Ridge CR1 and Peak B) achieve high illumination during favorable solar cycles (up to $22.6 "days"$ at CR1). However, their surface slopes approach or exceed the tipping safety margin for CLPS landers ($14.5 degree$), and because Earth sits very close to the local horizon, terrain occultation restricts direct communication windows.
+- *The Mons Mouton Advantage:* In contrast, the Mons Mouton plateau ($84.79 degree "S"$, $29.20 degree "E"$) features expansive flat landing corridors with average slopes of only $4.8 degree$ to $5.2 degree$. Because it is situated at lower polar latitude and elevated over $5.3 "km"$ to $6.4 "km"$ above the reference sphere, the Earth remains well above the horizon, providing *22.2 days of uninterrupted DTE communication* and *15.7 days of continuous dual-operational power and comm lock*.
 
 // -----------------------------------------------------------------------------
 // SECTION 4: FOUR-SEASON ORBITAL STRESS TEST
@@ -270,15 +270,15 @@ To evaluate lander survivability across the lunar year, we conducted simulations
   [#text(8pt, weight: "bold")[Max Night]],
   [#text(8pt, weight: "bold")[Score]],
 
-  [Shackleton Peak B], [Summer Solstice], [100.0%], [94.3%], [0 h], [*96.6*],
-  [Shackleton Peak B], [Autumn Equinox], [72.3%], [44.0%], [99 h], [*58.2*],
-  [Shackleton Peak B], [Winter Solstice], [57.1%], [0.0%], [144 h], [*35.8*],
-  [Shackleton Peak B], [Spring Equinox], [84.5%], [48.2%], [52 h], [*67.4*],
-  [IM-2 (Mons Mouton)], [Summer Solstice], [100.0%], [100.0%], [0 h], [*97.0*],
-  [IM-2 (Mons Mouton)], [Autumn Equinox], [54.7%], [75.3%], [152 h], [*53.7*],
-  [IM-2 (Mons Mouton)], [Winter Solstice], [48.2%], [62.1%], [174 h], [*47.5*],
-  [IM-2 (Mons Mouton)], [Spring Equinox], [58.9%], [78.6%], [138 h], [*57.2*],
-  [Haworth Crater (PSR)], [All Four Seasons], [0.0%], [18.1%], [336 h], [*3.6*],
+  [IM-2 (Mons Mouton)], [Summer Solstice], [99.7%], [100.0%], [1 h], [*98.4*],
+  [IM-2 (Mons Mouton)], [Autumn Equinox], [80.7%], [100.0%], [65 h], [*85.0*],
+  [IM-2 (Mons Mouton)], [Winter Solstice], [46.1%], [100.0%], [181 h], [*58.7*],
+  [IM-2 (Mons Mouton)], [Spring Equinox], [40.8%], [100.0%], [199 h], [*54.4*],
+  [Connecting Ridge CR1], [Summer Solstice], [96.7%], [0.0%], [11 h], [*38.7*],
+  [Connecting Ridge CR1], [Autumn Equinox], [0.0%], [56.5%], [336 h], [*4.6*],
+  [Connecting Ridge CR1], [Winter Solstice], [0.0%], [50.3%], [336 h], [*3.1*],
+  [Connecting Ridge CR1], [Spring Equinox], [51.8%], [11.3%], [162 h], [*10.2*],
+  [Haworth Crater (PSR)], [All Four Seasons], [0.0%], [0.0%], [336 h], [*0.0*],
 )
 
 #v(6pt)

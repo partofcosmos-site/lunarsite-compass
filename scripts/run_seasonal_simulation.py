@@ -45,6 +45,7 @@ def run_seasonal_test():
             site_name = s["name"]
             lat = s["latitude"]
             lon = s["longitude"]
+            elev = s.get("elevation_m", 0.0)
 
             df, metrics = solver.evaluate_site_window(
                 site_id=site_id,
@@ -53,7 +54,8 @@ def run_seasonal_test():
                 lon_deg=lon,
                 start_date=start_dt,
                 duration_days=duration,
-                step_hours=1.0
+                step_hours=1.0,
+                site_elev_m=elev
             )
 
             metrics["season"] = season_name

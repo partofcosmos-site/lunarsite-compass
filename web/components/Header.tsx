@@ -23,7 +23,7 @@ interface HeaderProps {
   epochIndex: number;
   totalEpochs: number;
   currentUtc: string;
-  onEpochChange: (index: number) => void;
+  onEpochChange: React.Dispatch<React.SetStateAction<number>>;
   onOpenMethodology: () => void;
 }
 

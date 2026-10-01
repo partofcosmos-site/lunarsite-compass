@@ -27,13 +27,13 @@ def polar_to_xy(lat_deg, lon_deg):
 # Prominent South Pole Geomorphological Features (Craters and Massifs)
 CRATER_FEATURES = [
     {"name": "Shackleton", "lat": -89.67, "lon": 129.78, "radius_km": 10.5, "psr": True},
-    {"name": "Faustini", "lat": -87.1, "lon": 84.3, "radius_km": 19.5, "psr": True},
-    {"name": "Shoemaker", "lat": -88.1, "lon": 45.9, "radius_km": 25.5, "psr": True},
-    {"name": "Haworth", "lat": -87.5, "lon": 354.8, "radius_km": 25.5, "psr": True},
-    {"name": "Amundsen", "lat": -84.4, "lon": 83.1, "radius_km": 51.5, "psr": False},
-    {"name": "Nobile", "lat": -85.3, "lon": 53.3, "radius_km": 39.5, "psr": False},
-    {"name": "de Gerlache", "lat": -88.3, "lon": 271.3, "radius_km": 16.0, "psr": True},
-    {"name": "Mons Mouton (Plateau)", "lat": -84.9, "lon": 32.0, "radius_km": 35.0, "psr": False},
+    {"name": "Faustini", "lat": -87.18, "lon": 84.31, "radius_km": 19.5, "psr": True},
+    {"name": "Shoemaker", "lat": -88.14, "lon": 45.91, "radius_km": 25.5, "psr": True},
+    {"name": "Haworth", "lat": -87.45, "lon": 354.83, "radius_km": 25.7, "psr": True},
+    {"name": "Amundsen", "lat": -84.44, "lon": 83.07, "radius_km": 51.7, "psr": False},
+    {"name": "Nobile", "lat": -85.28, "lon": 53.26, "radius_km": 39.6, "psr": False},
+    {"name": "de Gerlache", "lat": -88.48, "lon": 271.34, "radius_km": 16.4, "psr": True},
+    {"name": "Mons Mouton (Plateau)", "lat": -84.90, "lon": 31.60, "radius_km": 35.0, "psr": False},
 ]
 
 def generate_crater_boundary(center_lat, center_lon, radius_km, num_points=64):

@@ -14,8 +14,8 @@ PSR_RESERVOIRS = [
     {
         "psr_id": "shackleton_floor",
         "name": "Shackleton Crater Floor",
-        "latitude": -89.90,
-        "longitude": 0.0,
+        "latitude": -89.67,
+        "longitude": 129.78,
         "depth_km": 4.2,
         "temperature_k": 38,
         "volatile_types": ["H2O Ice", "CO2", "NH3", "Organics"],
@@ -25,8 +25,8 @@ PSR_RESERVOIRS = [
     {
         "psr_id": "faustini_floor",
         "name": "Faustini Crater Floor",
-        "latitude": -87.10,
-        "longitude": 84.30,
+        "latitude": -87.18,
+        "longitude": 84.31,
         "depth_km": 3.1,
         "temperature_k": 42,
         "volatile_types": ["H2O Ice", "CH4", "H2S"],
@@ -36,8 +36,8 @@ PSR_RESERVOIRS = [
     {
         "psr_id": "shoemaker_floor",
         "name": "Shoemaker Crater Floor",
-        "latitude": -88.10,
-        "longitude": 45.90,
+        "latitude": -88.14,
+        "longitude": 45.91,
         "depth_km": 2.8,
         "temperature_k": 40,
         "volatile_types": ["H2O Surface Frost", "SO2"],
@@ -47,8 +47,8 @@ PSR_RESERVOIRS = [
     {
         "psr_id": "haworth_floor",
         "name": "Haworth Crater Floor",
-        "latitude": -87.40,
-        "longitude": 354.80,
+        "latitude": -87.45,
+        "longitude": 354.83,
         "depth_km": 3.5,
         "temperature_k": 35,
         "volatile_types": ["Super-Volatiles (CO, Ar)", "H2O"],

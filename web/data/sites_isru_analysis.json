@@ -41,7 +41,7 @@
       {
         "psr_id": "shoemaker_floor",
         "psr_name": "Shoemaker Crater Floor",
-        "distance_km": 81.74,
+        "distance_km": 82.92,
         "temperature_k": 40,
         "volatiles": [
           "H2O Surface Frost",
@@ -54,7 +54,7 @@
       {
         "psr_id": "haworth_floor",
         "psr_name": "Haworth Crater Floor",
-        "distance_km": 96.29,
+        "distance_km": 96.63,
         "temperature_k": 35,
         "volatiles": [
           "Super-Volatiles (CO, Ar)",
@@ -67,7 +67,7 @@
       {
         "psr_id": "faustini_floor",
         "psr_name": "Faustini Crater Floor",
-        "distance_km": 101.18,
+        "distance_km": 101.38,
         "temperature_k": 42,
         "volatiles": [
           "H2O Ice",
@@ -81,7 +81,7 @@
       {
         "psr_id": "shackleton_floor",
         "psr_name": "Shackleton Crater Floor",
-        "distance_km": 135.88,
+        "distance_km": 139.05,
         "temperature_k": 38,
         "volatiles": [
           "H2O Ice",
@@ -137,7 +137,7 @@
       {
         "psr_id": "haworth_floor",
         "psr_name": "Haworth Crater Floor",
-        "distance_km": 103.01,
+        "distance_km": 103.74,
         "temperature_k": 35,
         "volatiles": [
           "Super-Volatiles (CO, Ar)",
@@ -150,7 +150,7 @@
       {
         "psr_id": "shoemaker_floor",
         "psr_name": "Shoemaker Crater Floor",
-        "distance_km": 104.11,
+        "distance_km": 105.2,
         "temperature_k": 40,
         "volatiles": [
           "H2O Surface Frost",
@@ -163,7 +163,7 @@
       {
         "psr_id": "faustini_floor",
         "psr_name": "Faustini Crater Floor",
-        "distance_km": 129.53,
+        "distance_km": 129.62,
         "temperature_k": 42,
         "volatiles": [
           "H2O Ice",
@@ -177,7 +177,7 @@
       {
         "psr_id": "shackleton_floor",
         "psr_name": "Shackleton Crater Floor",
-        "distance_km": 155.33,
+        "distance_km": 160.11,
         "temperature_k": 38,
         "volatiles": [
           "H2O Ice",
@@ -233,7 +233,7 @@
       {
         "psr_id": "shoemaker_floor",
         "psr_name": "Shoemaker Crater Floor",
-        "distance_km": 84.22,
+        "distance_km": 85.34,
         "temperature_k": 40,
         "volatiles": [
           "H2O Surface Frost",
@@ -246,7 +246,7 @@
       {
         "psr_id": "haworth_floor",
         "psr_name": "Haworth Crater Floor",
-        "distance_km": 89.25,
+        "distance_km": 89.77,
         "temperature_k": 35,
         "volatiles": [
           "Super-Volatiles (CO, Ar)",
@@ -259,7 +259,7 @@
       {
         "psr_id": "faustini_floor",
         "psr_name": "Faustini Crater Floor",
-        "distance_km": 110.44,
+        "distance_km": 110.4,
         "temperature_k": 42,
         "volatiles": [
           "H2O Ice",
@@ -273,7 +273,7 @@
       {
         "psr_id": "shackleton_floor",
         "psr_name": "Shackleton Crater Floor",
-        "distance_km": 136.28,
+        "distance_km": 140.62,
         "temperature_k": 38,
         "volatiles": [
           "H2O Ice",
@@ -291,19 +291,19 @@
     "site_id": "haworth_psr_control",
     "site_name": "Haworth Crater Interior (PSR Benchmark)",
     "nearest_psr_name": "Haworth Crater Floor",
-    "nearest_psr_distance_km": 0.04,
+    "nearest_psr_distance_km": 0.0,
     "nearest_psr_temperature_k": 35,
     "nearest_psr_volatiles": [
       "Super-Volatiles (CO, Ar)",
       "H2O"
     ],
     "traverse_classification": "Steep Crater Wall (Requires Tether/Hopper)",
-    "isru_accessibility_index": 66.6,
+    "isru_accessibility_index": 66.7,
     "all_psr_proximity": [
       {
         "psr_id": "haworth_floor",
         "psr_name": "Haworth Crater Floor",
-        "distance_km": 0.04,
+        "distance_km": 0.0,
         "temperature_k": 35,
         "volatiles": [
           "Super-Volatiles (CO, Ar)",
@@ -316,7 +316,7 @@
       {
         "psr_id": "shoemaker_floor",
         "psr_name": "Shoemaker Crater Floor",
-        "distance_km": 61.85,
+        "distance_km": 60.66,
         "temperature_k": 40,
         "volatiles": [
           "H2O Surface Frost",
@@ -329,7 +329,7 @@
       {
         "psr_id": "shackleton_floor",
         "psr_name": "Shackleton Crater Floor",
-        "distance_km": 75.82,
+        "distance_km": 84.69,
         "temperature_k": 38,
         "volatiles": [
           "H2O Ice",
@@ -344,7 +344,7 @@
       {
         "psr_id": "nobile_micro_psr",
         "psr_name": "Nobile West Rim Cold Pockets",
-        "distance_km": 99.38,
+        "distance_km": 99.76,
         "temperature_k": 68,
         "volatiles": [
           "Permafrost Regolith",
@@ -357,7 +357,7 @@
       {
         "psr_id": "mons_mouton_micro_psr",
         "psr_name": "Mons Mouton Plateau Depressions",
-        "distance_km": 100.83,
+        "distance_km": 101.52,
         "temperature_k": 65,
         "volatiles": [
           "Shallow Buried Ice (1m depth)",
@@ -370,7 +370,7 @@
       {
         "psr_id": "faustini_floor",
         "psr_name": "Faustini Crater Floor",
-        "distance_km": 117.54,
+        "distance_km": 114.75,
         "temperature_k": 42,
         "volatiles": [
           "H2O Ice",
@@ -387,7 +387,7 @@
     "site_id": "shackleton_peak_b",
     "site_name": "Peak Near Shackleton (Peak B)",
     "nearest_psr_name": "Shackleton Crater Floor",
-    "nearest_psr_distance_km": 11.85,
+    "nearest_psr_distance_km": 19.47,
     "nearest_psr_temperature_k": 38,
     "nearest_psr_volatiles": [
       "H2O Ice",
@@ -396,12 +396,12 @@
       "Organics"
     ],
     "traverse_classification": "Steep Crater Wall (Requires Tether/Hopper)",
-    "isru_accessibility_index": 44.2,
+    "isru_accessibility_index": 44.4,
     "all_psr_proximity": [
       {
         "psr_id": "shackleton_floor",
         "psr_name": "Shackleton Crater Floor",
-        "distance_km": 11.85,
+        "distance_km": 19.47,
         "temperature_k": 38,
         "volatiles": [
           "H2O Ice",
@@ -416,7 +416,7 @@
       {
         "psr_id": "shoemaker_floor",
         "psr_name": "Shoemaker Crater Floor",
-        "distance_km": 57.26,
+        "distance_km": 73.26,
         "temperature_k": 40,
         "volatiles": [
           "H2O Surface Frost",
@@ -427,9 +427,22 @@
         "feasibility_score": 35.0
       },
       {
+        "psr_id": "haworth_floor",
+        "psr_name": "Haworth Crater Floor",
+        "distance_km": 90.42,
+        "temperature_k": 35,
+        "volatiles": [
+          "Super-Volatiles (CO, Ar)",
+          "H2O"
+        ],
+        "wall_slope_deg": 24.0,
+        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
+        "feasibility_score": 35.0
+      },
+      {
         "psr_id": "faustini_floor",
         "psr_name": "Faustini Crater Floor",
-        "distance_km": 81.33,
+        "distance_km": 98.05,
         "temperature_k": 42,
         "volatiles": [
           "H2O Ice",
@@ -441,22 +454,9 @@
         "feasibility_score": 35.0
       },
       {
-        "psr_id": "haworth_floor",
-        "psr_name": "Haworth Crater Floor",
-        "distance_km": 85.89,
-        "temperature_k": 35,
-        "volatiles": [
-          "Super-Volatiles (CO, Ar)",
-          "H2O"
-        ],
-        "wall_slope_deg": 24.0,
-        "traverse_class": "Steep Crater Wall (Requires Tether/Hopper)",
-        "feasibility_score": 35.0
-      },
-      {
         "psr_id": "nobile_micro_psr",
         "psr_name": "Nobile West Rim Cold Pockets",
-        "distance_km": 141.51,
+        "distance_km": 157.98,
         "temperature_k": 68,
         "volatiles": [
           "Permafrost Regolith",
@@ -469,7 +469,7 @@
       {
         "psr_id": "mons_mouton_micro_psr",
         "psr_name": "Mons Mouton Plateau Depressions",
-        "distance_km": 154.78,
+        "distance_km": 169.99,
         "temperature_k": 65,
         "volatiles": [
           "Shallow Buried Ice (1m depth)",
@@ -485,7 +485,7 @@
     "site_id": "faustini_rim_a",
     "site_name": "Faustini Crater Rim A (Site LM7)",
     "nearest_psr_name": "Faustini Crater Floor",
-    "nearest_psr_distance_km": 23.96,
+    "nearest_psr_distance_km": 21.54,
     "nearest_psr_temperature_k": 42,
     "nearest_psr_volatiles": [
       "H2O Ice",
@@ -493,12 +493,12 @@
       "H2S"
     ],
     "traverse_classification": "Steep Crater Wall (Requires Tether/Hopper)",
-    "isru_accessibility_index": 37.2,
+    "isru_accessibility_index": 39.9,
     "all_psr_proximity": [
       {
         "psr_id": "faustini_floor",
         "psr_name": "Faustini Crater Floor",
-        "distance_km": 23.96,
+        "distance_km": 21.54,
         "temperature_k": 42,
         "volatiles": [
           "H2O Ice",
@@ -512,7 +512,7 @@
       {
         "psr_id": "shoemaker_floor",
         "psr_name": "Shoemaker Crater Floor",
-        "distance_km": 41.13,
+        "distance_km": 40.9,
         "temperature_k": 40,
         "volatiles": [
           "H2O Surface Frost",
@@ -525,7 +525,7 @@
       {
         "psr_id": "shackleton_floor",
         "psr_name": "Shackleton Crater Floor",
-        "distance_km": 63.8,
+        "distance_km": 57.32,
         "temperature_k": 38,
         "volatiles": [
           "H2O Ice",
@@ -540,7 +540,7 @@
       {
         "psr_id": "haworth_floor",
         "psr_name": "Haworth Crater Floor",
-        "distance_km": 101.7,
+        "distance_km": 100.5,
         "temperature_k": 35,
         "volatiles": [
           "Super-Volatiles (CO, Ar)",
@@ -582,7 +582,7 @@
     "site_id": "connecting_ridge_cr1",
     "site_name": "Connecting Ridge (Site CR1)",
     "nearest_psr_name": "Shackleton Crater Floor",
-    "nearest_psr_distance_km": 18.48,
+    "nearest_psr_distance_km": 19.4,
     "nearest_psr_temperature_k": 38,
     "nearest_psr_volatiles": [
       "H2O Ice",
@@ -591,12 +591,12 @@
       "Organics"
     ],
     "traverse_classification": "Steep Crater Wall (Requires Tether/Hopper)",
-    "isru_accessibility_index": 35.5,
+    "isru_accessibility_index": 34.5,
     "all_psr_proximity": [
       {
         "psr_id": "shackleton_floor",
         "psr_name": "Shackleton Crater Floor",
-        "distance_km": 18.48,
+        "distance_km": 19.4,
         "temperature_k": 38,
         "volatiles": [
           "H2O Ice",
@@ -611,7 +611,7 @@
       {
         "psr_id": "shoemaker_floor",
         "psr_name": "Shoemaker Crater Floor",
-        "distance_km": 73.73,
+        "distance_km": 72.51,
         "temperature_k": 40,
         "volatiles": [
           "H2O Surface Frost",
@@ -624,7 +624,7 @@
       {
         "psr_id": "haworth_floor",
         "psr_name": "Haworth Crater Floor",
-        "distance_km": 90.47,
+        "distance_km": 88.97,
         "temperature_k": 35,
         "volatiles": [
           "Super-Volatiles (CO, Ar)",
@@ -637,7 +637,7 @@
       {
         "psr_id": "faustini_floor",
         "psr_name": "Faustini Crater Floor",
-        "distance_km": 100.56,
+        "distance_km": 98.14,
         "temperature_k": 42,
         "volatiles": [
           "H2O Ice",
@@ -680,7 +680,7 @@
     "site_id": "de_gerlache_rim_1",
     "site_name": "de Gerlache Crater Rim 1",
     "nearest_psr_name": "Shackleton Crater Floor",
-    "nearest_psr_distance_km": 44.45,
+    "nearest_psr_distance_km": 55.09,
     "nearest_psr_temperature_k": 38,
     "nearest_psr_volatiles": [
       "H2O Ice",
@@ -694,7 +694,7 @@
       {
         "psr_id": "shackleton_floor",
         "psr_name": "Shackleton Crater Floor",
-        "distance_km": 44.45,
+        "distance_km": 55.09,
         "temperature_k": 38,
         "volatiles": [
           "H2O Ice",
@@ -709,7 +709,7 @@
       {
         "psr_id": "haworth_floor",
         "psr_name": "Haworth Crater Floor",
-        "distance_km": 70.98,
+        "distance_km": 69.77,
         "temperature_k": 35,
         "volatiles": [
           "Super-Volatiles (CO, Ar)",
@@ -722,7 +722,7 @@
       {
         "psr_id": "shoemaker_floor",
         "psr_name": "Shoemaker Crater Floor",
-        "distance_km": 86.81,
+        "distance_km": 85.75,
         "temperature_k": 40,
         "volatiles": [
           "H2O Surface Frost",
@@ -735,7 +735,7 @@
       {
         "psr_id": "faustini_floor",
         "psr_name": "Faustini Crater Floor",
-        "distance_km": 130.01,
+        "distance_km": 127.62,
         "temperature_k": 42,
         "volatiles": [
           "H2O Ice",

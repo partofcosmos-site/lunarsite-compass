@@ -2,6 +2,7 @@
 LunarSite Compass — CLPS Mission Planning & Temporal Window Solver
 Computes hour-by-hour solar illumination, Direct-to-Earth communication line-of-sight,
 and dual-operational availability windows by evaluating ephemeris vectors against LOLA terrain masks.
+Seamlessly utilizes verified real NASA JPL Horizons ephemeris and NASA PDS LRO LOLA DEM topography.
 """
 
 import numpy as np
@@ -27,7 +28,8 @@ class MissionWindowSolver:
         lon_deg: float,
         start_date: datetime,
         duration_days: int = 30,
-        step_hours: float = 1.0
+        step_hours: float = 1.0,
+        site_elev_m: float = 0.0
     ) -> Tuple[pd.DataFrame, Dict[str, Any]]:
         """
         Evaluates a single site over duration_days at step_hours intervals.
@@ -50,9 +52,15 @@ class MissionWindowSolver:
         records = []
         
         for dt, ts in zip(dt_list, timestamps):
-            sun_az, sun_el = self.ephemeris.get_solar_vector(lat_deg, lon_deg, ts)
-            earth_az, earth_el = self.ephemeris.get_earth_vector(lat_deg, lon_deg, ts)
+            # Evaluate Sun & Earth vectors (using real NASA JPL Horizons ephemeris when available)
+            sun_az, sun_el = self.ephemeris.get_solar_vector(
+                lat_deg, lon_deg, ts, site_elev_m=site_elev_m, site_id=site_id
+            )
+            earth_az, earth_el = self.ephemeris.get_earth_vector(
+                lat_deg, lon_deg, ts, site_elev_m=site_elev_m, site_id=site_id
+            )
             
+            # Evaluate topographic horizon angles from real NASA LRO LOLA DEM
             sun_horizon_el = self.terrain.get_horizon_elevation(site_id, sun_az)
             earth_horizon_el = self.terrain.get_horizon_elevation(site_id, earth_az)
             
@@ -82,6 +90,18 @@ class MissionWindowSolver:
         metrics["site_name"] = site_name
         metrics["latitude"] = lat_deg
         metrics["longitude"] = lon_deg
+        
+        # Provenance & real telemetry metadata
+        metrics["ephemeris_source"] = self.ephemeris.get_ephemeris_provenance()["source"]
+        metrics["topography_source"] = self.terrain.get_terrain_provenance()["source"]
+        metrics["is_real_nasa_telemetry"] = bool(self.ephemeris.is_real_ephemeris_active() and self.terrain.is_real_lola_active())
+        
+        terrain_meta = self.terrain.get_site_terrain_metadata(site_id)
+        if terrain_meta:
+            metrics["center_lola_elevation_m"] = terrain_meta.get("center_lola_elevation_m")
+            metrics["lola_obstacle_max_deg"] = terrain_meta.get("metrics", {}).get("max_horizon_elevation_deg")
+            metrics["lola_obstacle_mean_deg"] = terrain_meta.get("metrics", {}).get("mean_horizon_elevation_deg")
+            metrics["lola_dominant_obstacle_az"] = terrain_meta.get("metrics", {}).get("dominant_obstacle_azimuth_deg")
         
         return df, metrics
 
