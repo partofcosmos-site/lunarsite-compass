@@ -10,6 +10,7 @@ import { DescentSimulator } from "../components/DescentSimulator";
 import { IsruTraversePlanner } from "../components/IsruTraversePlanner";
 import { SeasonalStressTest } from "../components/SeasonalStressTest";
 import { MethodologyModal } from "../components/MethodologyModal";
+import { AiMissionCopilot } from "../components/AiMissionCopilot";
 
 import {
   CANDIDATE_SITES,
@@ -33,14 +34,15 @@ import {
   Snowflake, 
   ShieldCheck, 
   Info,
-  ExternalLink
+  ExternalLink,
+  Bot
 } from "lucide-react";
 
 export default function Home() {
   const [selectedSiteId, setSelectedSiteId] = useState<string>("im2_mons_mouton");
   const [epochIndex, setEpochIndex] = useState<number>(120); // Default to T+120h (5 days in)
   const [activeTab, setActiveTab] = useState<
-    "map" | "telemetry" | "scorecard" | "descent" | "isru" | "seasons"
+    "map" | "telemetry" | "scorecard" | "descent" | "isru" | "seasons" | "copilot"
   >("map");
   const [isMethodologyOpen, setIsMethodologyOpen] = useState<boolean>(false);
 
@@ -173,6 +175,18 @@ export default function Home() {
               <Snowflake className="h-4 w-4" />
               Four-Season Stress Test
             </button>
+
+            <button
+              onClick={() => setActiveTab("copilot")}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-lg transition-all ${
+                activeTab === "copilot"
+                  ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
+              }`}
+            >
+              <Bot className="h-4 w-4" />
+              AI Flight Director
+            </button>
           </nav>
         </div>
 
@@ -253,7 +267,26 @@ export default function Home() {
             onSelectSite={setSelectedSiteId}
           />
         )}
+
+        {/* Tab 7: AI Flight Director Copilot */}
+        {activeTab === "copilot" && (
+          <AiMissionCopilot
+            selectedSiteId={selectedSiteId}
+            onSelectSite={setSelectedSiteId}
+            onSwitchTab={setActiveTab}
+          />
+        )}
       </main>
+
+      {/* Floating AI Copilot Trigger */}
+      <button
+        onClick={() => setActiveTab("copilot")}
+        className="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-4 py-3 rounded-full shadow-2xl flex items-center gap-2.5 border border-cyan-400/40 text-xs font-semibold transition-all transform hover:scale-105 active:scale-95 group"
+        title="Open AI Flight Director Copilot"
+      >
+        <Bot className="h-4 w-4" />
+        <span className="hidden sm:inline">AI Flight Director</span>
+      </button>
 
       {/* Footer */}
       <footer className="w-full border-t border-slate-800 bg-space-950/80 px-4 py-4 sm:px-6 text-xs text-slate-400">

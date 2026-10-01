@@ -588,6 +588,37 @@ class TestLunarEngine(unittest.TestCase):
         self.assertAlmostEqual(x_over, 0.0, places=3)
         self.assertAlmostEqual(y_over, 0.0, places=3)
 
+    def test_november_operational_window_mons_mouton(self):
+        """Operational Verification: IM-2 Mons Mouton must guarantee >=15d continuous dual-op and >=70% comm."""
+        with open('data/mission_summary_matrix.json', 'r', encoding='utf-8') as f:
+            summaries = json.load(f)
+        im2 = next(s for s in summaries if s['site_id'] == 'im2_mons_mouton')
+        self.assertGreaterEqual(im2['comm_percentage'], 70.0)
+        self.assertGreaterEqual(im2['max_continuous_comm_days'], 16.0)
+        self.assertGreaterEqual(im2['max_continuous_dual_days'], 15.0)
+        self.assertGreaterEqual(im2['clps_suitability_score'], 50.0)
+        self.assertLessEqual(im2['slope_deg'], 6.0)
+
+    def test_shackleton_dual_op_zero(self):
+        """Operational Verification: Peak Near Shackleton (Peak B) must have 0.0% dual-op and marginal score."""
+        with open('data/mission_summary_matrix.json', 'r', encoding='utf-8') as f:
+            summaries = json.load(f)
+        shack = next(s for s in summaries if s['site_id'] == 'shackleton_peak_b')
+        self.assertEqual(shack['dual_operational_percentage'], 0.0)
+        self.assertEqual(shack['max_continuous_dual_days'], 0.0)
+        self.assertLessEqual(shack['comm_percentage'], 15.0)
+        self.assertLessEqual(shack['clps_suitability_score'], 20.0)
+
+    def test_psr_haworth_score_zero(self):
+        """Operational Verification: Haworth PSR control site must score exactly 0.0 across all metrics."""
+        with open('data/mission_summary_matrix.json', 'r', encoding='utf-8') as f:
+            summaries = json.load(f)
+        haworth = next(s for s in summaries if s['site_id'] == 'haworth_psr_control')
+        self.assertEqual(haworth['clps_suitability_score'], 0.0)
+        self.assertEqual(haworth['illumination_percentage'], 0.0)
+        self.assertEqual(haworth['comm_percentage'], 0.0)
+        self.assertEqual(haworth['max_continuous_night_hours'], 720)
+
 if __name__ == "__main__":
     unittest.main()
 

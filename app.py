@@ -149,6 +149,86 @@ def main():
         st.sidebar.success("✅ PDS LOLA DEM: INGESTED")
         st.sidebar.caption("Product: `LDEM_80S_80M_FLOAT.IMG`\nResolution: 80 m/pix Polar Stereographic")
 
+    # ── AI Mission Advisor ─────────────────────────────────────────────────────
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 🤖 AI Mission Advisor")
+    advisor_query = st.sidebar.text_input(
+        "Ask about candidate sites",
+        placeholder="e.g. Which site has the longest sunlight?",
+        key="advisor_query"
+    )
+    if advisor_query:
+        query_lower = advisor_query.lower()
+
+        # Sort sites by composite score for ranking
+        ranked = sorted(summaries, key=lambda s: s["clps_suitability_score"], reverse=True)
+        top = ranked[0]
+
+        # Keyword-grounded local-brain answer
+        if any(k in query_lower for k in ["sun", "solar", "illuminat", "light", "power"]):
+            best = max(summaries, key=lambda s: s["illumination_percentage"])
+            answer = (
+                f"**Best Solar Power Site:** {best['site_name']}\n\n"
+                f"- Solar Illumination: **{best['illumination_percentage']}%**\n"
+                f"- Longest Continuous Sunlight: **{best['max_continuous_illumination_days']} days**\n"
+                f"- CLPS Suitability Score: **{best['clps_suitability_score']} / 100**"
+            )
+            highlight = best
+        elif any(k in query_lower for k in ["comm", "earth", "signal", "contact", "link"]):
+            best = max(summaries, key=lambda s: s["comm_percentage"])
+            answer = (
+                f"**Best Earth Comms Site:** {best['site_name']}\n\n"
+                f"- Earth Visibility: **{best['comm_percentage']}%**\n"
+                f"- Longest Continuous Comm: **{best['max_continuous_comm_days']} days**\n"
+                f"- CLPS Suitability Score: **{best['clps_suitability_score']} / 100**"
+            )
+            highlight = best
+        elif any(k in query_lower for k in ["dual", "both", "optimal", "operat"]):
+            best = max(summaries, key=lambda s: s["dual_operational_percentage"])
+            answer = (
+                f"**Best Dual-Operational Site:** {best['site_name']}\n\n"
+                f"- Dual Op Window: **{best['dual_operational_percentage']}%**\n"
+                f"- Longest Simultaneous Sun + Comm: **{best['max_continuous_dual_days']} days**\n"
+                f"- CLPS Suitability Score: **{best['clps_suitability_score']} / 100**"
+            )
+            highlight = best
+        elif any(k in query_lower for k in ["slope", "safe", "terrain", "flat", "hazard"]):
+            best = min(summaries, key=lambda s: s["slope_deg"])
+            answer = (
+                f"**Flattest / Safest Terrain:** {best['site_name']}\n\n"
+                f"- Surface Slope: **{best['slope_deg']}°**\n"
+                f"- CLPS Suitability Score: **{best['clps_suitability_score']} / 100**"
+            )
+            highlight = best
+        elif any(k in query_lower for k in ["dark", "night", "blackout", "surviv", "cold"]):
+            best = min(summaries, key=lambda s: s["max_continuous_night_hours"])
+            answer = (
+                f"**Shortest Dark / Blackout Period:** {best['site_name']}\n\n"
+                f"- Longest Continuous Night: **{best['max_continuous_night_hours']} h**\n"
+                f"- CLPS Suitability Score: **{best['clps_suitability_score']} / 100**"
+            )
+            highlight = best
+        else:
+            # Default: top-ranked site by overall score
+            highlight = top
+            answer = (
+                f"**Top-Ranked CLPS Site:** {top['site_name']}\n\n"
+                f"- CLPS Suitability Score: **{top['clps_suitability_score']} / 100**\n"
+                f"- Solar Illumination: **{top['illumination_percentage']}%**\n"
+                f"- Earth Visibility: **{top['comm_percentage']}%**\n"
+                f"- Dual-Op Window: **{top['dual_operational_percentage']}%**\n"
+                f"- Surface Slope: **{top['slope_deg']}°**"
+            )
+
+        st.sidebar.markdown(answer)
+        st.sidebar.markdown("**Key Metrics — Recommended Site:**")
+        adv_c1, adv_c2 = st.sidebar.columns(2)
+        adv_c1.metric("☀️ Sun%", f"{highlight['illumination_percentage']}%")
+        adv_c2.metric("📡 Comm%", f"{highlight['comm_percentage']}%")
+        adv_c3, adv_c4 = st.sidebar.columns(2)
+        adv_c3.metric("⚡ Dual%", f"{highlight['dual_operational_percentage']}%")
+        adv_c4.metric("🏆 Score", f"{highlight['clps_suitability_score']}")
+
     # Filter telemetry for selected site
     df_site = df_telemetry[df_telemetry["site_id"] == site_id].copy().reset_index(drop=True)
 
@@ -188,13 +268,14 @@ def main():
         )
 
     # Main Visualizer Tabs
-    tab_map, tab_timeline, tab_comparison, tab_seasons, tab_isru, tab_methodology = st.tabs([
+    tab_map, tab_timeline, tab_comparison, tab_seasons, tab_isru, tab_methodology, tab_briefing = st.tabs([
         "🗺️ Polar Geospatial Map",
         "📈 Temporal Window Telemetry", 
         "⚖️ Multi-Site Comparative Scorecard", 
         "❄️ Four-Season Orbital Stress Test",
         "🧊 ISRU Volatiles & Rover Traverse",
-        "🔬 Scientific Methodology & Math"
+        "🔬 Scientific Methodology & Math",
+        "📑 Executive Mission Briefing"
     ])
 
     with tab_map:
@@ -241,7 +322,7 @@ def main():
             selected_time=selected_epoch,
             highlight_site_id=site_id
         )
-        st.plotly_chart(fig_polar, use_container_width=True)
+        st.plotly_chart(fig_polar, width='stretch')
 
     with tab_timeline:
         st.subheader("Hour-by-Hour Celestial Elevation vs. Topographic Horizon")
@@ -295,7 +376,7 @@ def main():
             yaxis_title="Elevation Angle (°)",
             hovermode="x unified"
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
         # Operational Status Lane
         st.subheader("Operational Window Classification Matrix")
@@ -330,7 +411,7 @@ def main():
             xaxis_title="Mission Date (November 2026)",
             legend=dict(orientation="h", yanchor="bottom", y=1.05, xanchor="center", x=0.5)
         )
-        st.plotly_chart(fig_status, use_container_width=True)
+        st.plotly_chart(fig_status, width='stretch')
 
         # 360-Degree Synthetic Horizon Panorama
         st.subheader("🔭 360° Cylindrical Horizon Skyline & Celestial Silhouette (TRN Navigation)")
@@ -346,7 +427,7 @@ def main():
             earth_az=float(latest_row["earth_azimuth_deg"]),
             earth_el=float(latest_row["earth_elevation_deg"])
         )
-        st.plotly_chart(fig_skyline, use_container_width=True)
+        st.plotly_chart(fig_skyline, width='stretch')
 
         # Real NASA LOLA DEM Radial Topography Cross-Sections
         if real_lola_data and site_id in real_lola_data.get("sites", {}):
@@ -379,7 +460,7 @@ def main():
                     yaxis_title="Physical Elevation above 1737.4 km (m)",
                     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
                 )
-                st.plotly_chart(fig_radial, use_container_width=True)
+                st.plotly_chart(fig_radial, width='stretch')
 
     with tab_comparison:
         st.subheader("Candidate Landing Site Strategic Comparison")
@@ -400,7 +481,7 @@ def main():
             })
         
         comp_df = pd.DataFrame(comp_records).sort_values("Suitability (/100)", ascending=False)
-        st.dataframe(comp_df, use_container_width=True, hide_index=True)
+        st.dataframe(comp_df, width='stretch', hide_index=True)
 
         # Comparative Bar Chart
         fig_bar = go.Figure()
@@ -431,7 +512,7 @@ def main():
             yaxis_title="Duration (Days)",
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
         )
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width='stretch')
 
     with tab_seasons:
         st.subheader("❄️ Four-Season Orbital Stress Test & Cryogenic Night Survival")
@@ -462,7 +543,7 @@ def main():
                 "clps_suitability_score": "Score (/100)"
             }).sort_values("Score (/100)", ascending=False)
 
-            st.dataframe(season_display_df, use_container_width=True, hide_index=True)
+            st.dataframe(season_display_df, width='stretch', hide_index=True)
 
             # Seasonal Comparison Plot across all seasons
             st.subheader("Seasonal Sunlight Retention Across All Sites")
@@ -484,7 +565,7 @@ def main():
                 xaxis_title="Orbital Season",
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
             )
-            st.plotly_chart(fig_season, use_container_width=True)
+            st.plotly_chart(fig_season, width='stretch')
     with tab_isru:
         st.subheader("🧊 ISRU Water-Ice Cold Trap Proximity & Rover Traverse Analysis")
         st.caption("Quantifies distance, thermal stability regimes (T < 40K to 70K), and surface slope traversability between candidate landing sites and Permanently Shadowed Region (PSR) volatile cold traps.")
@@ -504,7 +585,7 @@ def main():
                 })
             
             df_isru_table = pd.DataFrame(isru_summary_rows).sort_values("ISRU Index (/100)", ascending=False)
-            st.dataframe(df_isru_table, use_container_width=True, hide_index=True)
+            st.dataframe(df_isru_table, width='stretch', hide_index=True)
 
             # ISRU Accessibility Bar Chart
             fig_isru = go.Figure()
@@ -527,7 +608,7 @@ def main():
                 margin=dict(l=20, r=20, t=40, b=20),
                 yaxis_title="ISRU Accessibility Index (/100)"
             )
-            st.plotly_chart(fig_isru, use_container_width=True)
+            st.plotly_chart(fig_isru, width='stretch')
 
             # Selected Site Proximity Deep Dive
             st.markdown("---")
@@ -556,7 +637,7 @@ def main():
                         "Traverse Feasibility": p["traverse_class"],
                         "Volatiles Expected": ", ".join(p["volatiles"])
                     })
-                st.dataframe(pd.DataFrame(all_psr_rows), use_container_width=True, hide_index=True)
+                st.dataframe(pd.DataFrame(all_psr_rows), width='stretch', hide_index=True)
         else:
             st.info("Run scripts/generate_isru_data.py to compute volatile cold-trap proximity.")
 
@@ -594,6 +675,41 @@ def main():
           - Computed 360-degree topographic horizon elevation masks $H(\phi)$ using spherical geodesic raycasting ($R = 1,737.4\text{ km}$, observer mast height $h_0 = 2\text{ m}$, radius up to $26\text{ km}$).
           - Stored In: `data/real_lola_horizons.json` (570 KB).
         """)
+
+    with tab_briefing:
+        st.subheader("📑 CLPS Executive Mission Briefing & Decision Guide")
+        st.caption("Comprehensive landing site down-selection analysis and operational briefing for NASA Space Apps Challenge 2026.")
+        
+        st.link_button(
+            "📥 Download Executive Mission Briefing (PDF)", 
+            "https://lunarsite-compass.vercel.app/docs/LUNARSITE_COMPASS_RESEARCH_PAPER.pdf",
+            type="primary"
+        )
+        
+        st.markdown("""
+        ### Executive Takeaways for Mission Directors
+        - **NASA Selection Confirmed:** Intuitive Machines IM-2 (Mons Mouton) is mathematically the optimal CLPS site for survival. It combines an ultra-gentle slope (4.9°) with 74.0% continuous Direct-to-Earth communication and 100% communication lock across Southern Winter Solstice.
+        - **The Shackleton Peak Trap:** While Shackleton rims receive high peak summer sunlight, their 14.2° slopes approach the 15.0° landing gear tip-over limit, and terrain occultation restricts Direct-to-Earth communication to only 10.3% with zero dual-operational hours in November 2026.
+        - **Timing Is Non-Linear:** A 48-hour shift in landing touchdown time at Mons Mouton can mean the difference between landing in a 15.6-day continuous dual-operational window or landing into an immediate 180-hour cryogenic shadow.
+        """)
+        
+        # Display top 4 sites summary table
+        ranked_sites = sorted(summaries, key=lambda s: s["clps_suitability_score"], reverse=True)
+        top4_df = pd.DataFrame([
+            {
+                "Rank": f"#{i+1}",
+                "Landing Site": s["site_name"],
+                "Score": f"{s['clps_suitability_score']} / 100",
+                "Slope": f"{s['slope_deg']}°",
+                "Sunlight": f"{s['illumination_percentage']}%",
+                "Earth Comm": f"{s['comm_percentage']}%",
+                "Dual-Op": f"{s['dual_operational_percentage']}%",
+                "Max Dark": f"{s['max_continuous_night_hours']} h",
+                "Operational Profile": s["mission_context"]
+            }
+            for i, s in enumerate(ranked_sites[:4])
+        ])
+        st.dataframe(top4_df, width="stretch", hide_index=True)
 
 if __name__ == "__main__":
     main()
