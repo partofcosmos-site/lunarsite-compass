@@ -4,6 +4,7 @@ import seasonalData from "../data/seasonal_benchmark_analysis.json";
 import isruData from "../data/sites_isru_analysis.json";
 import timelineEpochsData from "../data/timeline_epochs.json";
 import telemetryBySiteData from "../data/telemetry_by_site.json";
+import realLolaHorizonsData from "../data/real_lola_horizons.json";
 
 import {
   CandidateSite,
@@ -12,6 +13,8 @@ import {
   SiteIsruAnalysis,
   TimelineEpoch,
   TelemetryPoint,
+  LolaDemDataset,
+  LolaSiteData,
 } from "./types";
 
 export const CANDIDATE_SITES: CandidateSite[] = sitesData as CandidateSite[];
@@ -20,6 +23,7 @@ export const SEASONAL_BENCHMARKS: SeasonalBenchmark[] = seasonalData as Seasonal
 export const SITES_ISRU_ANALYSIS: SiteIsruAnalysis[] = isruData as SiteIsruAnalysis[];
 export const TIMELINE_EPOCHS: TimelineEpoch[] = timelineEpochsData as TimelineEpoch[];
 export const TELEMETRY_BY_SITE: Record<string, TelemetryPoint[]> = telemetryBySiteData as unknown as Record<string, TelemetryPoint[]>;
+export const REAL_LOLA_HORIZONS: LolaDemDataset = realLolaHorizonsData as unknown as LolaDemDataset;
 
 export function getSiteById(siteId: string): CandidateSite | undefined {
   return CANDIDATE_SITES.find((s) => s.id === siteId);
@@ -36,3 +40,16 @@ export function getTelemetryForSite(siteId: string): TelemetryPoint[] {
 export function getIsruForSite(siteId: string): SiteIsruAnalysis | undefined {
   return SITES_ISRU_ANALYSIS.find((s) => s.site_id === siteId);
 }
+
+export function getLolaDataForSite(siteId: string): LolaSiteData | undefined {
+  if (!REAL_LOLA_HORIZONS?.sites) return undefined;
+  if (REAL_LOLA_HORIZONS.sites[siteId]) {
+    return REAL_LOLA_HORIZONS.sites[siteId];
+  }
+  // Support aliases such as haworth_psr vs haworth_psr_control
+  if (siteId === "haworth_psr" && REAL_LOLA_HORIZONS.sites["haworth_psr_control"]) {
+    return REAL_LOLA_HORIZONS.sites["haworth_psr_control"];
+  }
+  return undefined;
+}
+

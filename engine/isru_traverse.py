@@ -5,7 +5,7 @@ between CLPS landing sites and South Pole Permanently Shadowed Region (PSR) cold
 """
 
 import numpy as np
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Any, Optional
 
 R_MOON_KM = 1737.4
 
@@ -82,15 +82,18 @@ PSR_RESERVOIRS = [
 def calculate_lunar_distance_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """
     Computes Great-Circle surface distance on the lunar sphere (R = 1737.4 km).
-    Uses Haversine formulation robust to polar singularities.
+    Uses Haversine formulation robust to polar singularities and floating point overshoot.
     """
-    phi1 = np.radians(lat1)
-    phi2 = np.radians(lat2)
-    dphi = np.radians(lat2 - lat1)
-    dlambda = np.radians(lon2 - lon1)
+    lat1_c = max(-90.0, min(90.0, float(lat1)))
+    lat2_c = max(-90.0, min(90.0, float(lat2)))
+    phi1 = np.radians(lat1_c)
+    phi2 = np.radians(lat2_c)
+    dphi = np.radians(lat2_c - lat1_c)
+    dlambda = np.radians(float(lon2) - float(lon1))
 
     a = np.sin(dphi / 2.0)**2 + np.cos(phi1) * np.cos(phi2) * np.sin(dlambda / 2.0)**2
-    c = 2.0 * np.arctan2(np.sqrt(a), np.sqrt(1.0 - a))
+    a_clipped = float(np.clip(a, 0.0, 1.0))
+    c = 2.0 * np.arctan2(np.sqrt(a_clipped), np.sqrt(max(0.0, 1.0 - a_clipped)))
     return float(R_MOON_KM * c)
 
 def evaluate_site_isru_potential(site: Dict) -> Dict:
@@ -166,3 +169,159 @@ def run_isru_analysis_all_sites(sites_data: List[Dict]) -> List[Dict]:
         results.append(res)
     results.sort(key=lambda x: x["isru_accessibility_index"], reverse=True)
     return results
+
+# ---------------------------------------------------------------------------
+# Terramechanics Slope Penalty & Dijkstra Traverse Pathfinding Engine
+# ---------------------------------------------------------------------------
+
+def compute_slope_penalty(slope_deg: float, critical_slope_deg: float = 15.0, exponent: float = 2.0) -> float:
+    """
+    Evaluates terramechanic mobility penalty on lunar regolith.
+    Based on Bekker-Wong lunar wheel-soil interaction mechanics.
+    Returns 0.0 on flat terrain, non-linear penalty as slope approaches
+    critical climb threshold (15.0° for typical CLPS rovers), and float('inf')
+    beyond critical threshold where rover tipping/slip hazard becomes impassable.
+    """
+    if slope_deg <= 0.0:
+        return 0.0
+    if slope_deg >= critical_slope_deg:
+        return float("inf")
+    return float((slope_deg / critical_slope_deg) ** exponent)
+
+def calculate_traverse_edge_cost(distance_m: float, slope_deg: float, critical_slope_deg: float = 15.0) -> float:
+    """
+    Calculates energy/risk cost of traversing an edge segment:
+    cost = distance_m * (1.0 + slope_penalty)
+    Returns float('inf') if slope exceeds critical tipping threshold.
+    """
+    penalty = compute_slope_penalty(slope_deg, critical_slope_deg=critical_slope_deg)
+    if penalty == float("inf"):
+        return float("inf")
+    return float(distance_m * (1.0 + penalty))
+
+def classify_thermal_regime(temperature_k: float) -> str:
+    """Classifies volatile cold trap thermal regimes based on sublimation equilibrium."""
+    if temperature_k <= 40.0:
+        return "Super-Volatile Cryogenic Cold Trap"
+    elif temperature_k <= 70.0:
+        return "H2O Permafrost Thermal Stability Zone"
+    else:
+        return "Sub-Surface Volatile Burial Zone"
+
+def solve_dijkstra_traverse(
+    slope_grid: np.ndarray,
+    start: Tuple[int, int],
+    goal: Tuple[int, int],
+    cell_size_m: float = 20.0,
+    critical_slope_deg: float = 15.0
+) -> Dict[str, Any]:
+    """
+    Finds the optimal, lowest-cost traverse route on a 2D slope grid (degrees)
+    using Dijkstra's algorithm. Avoids steep crater walls and returns total
+    distance, maximum slope encountered, and path waypoints.
+    """
+    import heapq
+
+    rows, cols = slope_grid.shape
+    r_start, c_start = start
+    r_goal, c_goal = goal
+
+    if not (0 <= r_start < rows and 0 <= c_start < cols):
+        raise ValueError(f"Start coordinates {start} out of bounds")
+    if not (0 <= r_goal < rows and 0 <= c_goal < cols):
+        raise ValueError(f"Goal coordinates {goal} out of bounds")
+
+    # If start or goal itself exceeds critical slope, traverse is impossible
+    if slope_grid[r_start, c_start] >= critical_slope_deg or slope_grid[r_goal, c_goal] >= critical_slope_deg:
+        return {
+            "success": False,
+            "path": [],
+            "total_cost": float("inf"),
+            "total_distance_m": 0.0,
+            "max_slope_deg": float(max(slope_grid[r_start, c_start], slope_grid[r_goal, c_goal])),
+            "mean_slope_deg": 0.0,
+            "num_waypoints": 0,
+            "message": "Start or goal site exceeds critical slope safety limit"
+        }
+
+    distances = np.full((rows, cols), np.inf, dtype=np.float64)
+    distances[r_start, c_start] = 0.0
+    predecessors: Dict[Tuple[int, int], Optional[Tuple[int, int]]] = {start: None}
+
+    # Priority queue: (cost, r, c)
+    pq = [(0.0, r_start, c_start)]
+
+    # 8-connected neighbors
+    neighbor_offsets = [
+        (-1, 0, 1.0), (1, 0, 1.0), (0, -1, 1.0), (0, 1, 1.0),
+        (-1, -1, np.sqrt(2.0)), (-1, 1, np.sqrt(2.0)),
+        (1, -1, np.sqrt(2.0)), (1, 1, np.sqrt(2.0))
+    ]
+
+    found = False
+    while pq:
+        curr_cost, r, c = heapq.heappop(pq)
+
+        if curr_cost > distances[r, c]:
+            continue
+
+        if (r, c) == goal:
+            found = True
+            break
+
+        for dr, dc, dist_factor in neighbor_offsets:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < rows and 0 <= nc < cols:
+                edge_slope = max(slope_grid[r, c], slope_grid[nr, nc])
+                seg_dist = cell_size_m * dist_factor
+                seg_cost = calculate_traverse_edge_cost(seg_dist, edge_slope, critical_slope_deg)
+
+                if seg_cost == float("inf"):
+                    continue
+
+                new_cost = curr_cost + seg_cost
+                if new_cost < distances[nr, nc]:
+                    distances[nr, nc] = new_cost
+                    predecessors[(nr, nc)] = (r, c)
+                    heapq.heappush(pq, (new_cost, nr, nc))
+
+    if not found:
+        return {
+            "success": False,
+            "path": [],
+            "total_cost": float("inf"),
+            "total_distance_m": 0.0,
+            "max_slope_deg": float("inf"),
+            "mean_slope_deg": float("inf"),
+            "num_waypoints": 0,
+            "message": "No passable route exists within slope constraints"
+        }
+
+    # Reconstruct path
+    path = []
+    curr = goal
+    while curr is not None:
+        path.append(curr)
+        curr = predecessors.get(curr)
+    path.reverse()
+
+    # Compute path statistics
+    path_slopes = [float(slope_grid[pr, pc]) for pr, pc in path]
+    total_dist = 0.0
+    for i in range(len(path) - 1):
+        dr = abs(path[i+1][0] - path[i][0])
+        dc = abs(path[i+1][1] - path[i][1])
+        factor = np.sqrt(2.0) if (dr != 0 and dc != 0) else 1.0
+        total_dist += cell_size_m * factor
+
+    return {
+        "success": True,
+        "path": path,
+        "total_cost": round(float(distances[r_goal, c_goal]), 2),
+        "total_distance_m": round(float(total_dist), 2),
+        "max_slope_deg": round(float(max(path_slopes)), 2),
+        "mean_slope_deg": round(float(np.mean(path_slopes)), 2),
+        "num_waypoints": len(path),
+        "message": "Optimal traverse path successfully planned"
+    }
+

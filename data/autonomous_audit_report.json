@@ -1,0 +1,222 @@
+{
+  "audit_title": "LunarSite Compass Autonomous Self-Audit & Quality Gate",
+  "timestamp_utc": "2026-10-01T07:38:08.265597+00:00",
+  "overall_status": "AUDIT_PASSED_ZERO_REGRESSIONS",
+  "dataset_integrity": {
+    "all_datasets_valid": true,
+    "datasets": {
+      "sites.json": {
+        "description": "Candidate Landing Sites Specification",
+        "size_kb": 3.5,
+        "sha256": "7eb79f751e55175aab2198302a1bdb978b1bd50e8296fa796bcef139dea8cdb3",
+        "record_count": 8,
+        "details": {
+          "site_count": 8
+        },
+        "status": "VERIFIED_VALID"
+      },
+      "real_ephemeris_2026.json": {
+        "description": "NASA JPL Horizons Body-Fixed Ephemeris",
+        "size_kb": 1742.4,
+        "sha256": "a8c3595f94b35b16ec835530485568ef4a4a684b5af46e2f5407e4d80e2c9bb7",
+        "record_count": 8,
+        "details": {
+          "provenance": "NASA JPL Horizons REST API",
+          "sites_with_topocentric": 8
+        },
+        "status": "VERIFIED_VALID"
+      },
+      "real_lola_horizons.json": {
+        "description": "NASA PDS LRO LOLA Topographic Horizons",
+        "size_kb": 556.8,
+        "sha256": "5d063767e3fe8004e296289c31df8e0b3afd47e97dd75de5389c96351b0d9700",
+        "record_count": 8,
+        "details": {
+          "provenance": "NASA Planetary Data System (PDS) Geosciences Node / LRO LOLA Science Team",
+          "topography_sites": 8
+        },
+        "status": "VERIFIED_VALID"
+      },
+      "mission_summary_matrix.json": {
+        "description": "CLPS Mission Scoring & Window Summary",
+        "size_kb": 10.1,
+        "sha256": "053b2648a6904cc1206f436893fa9455c6ad63057706af696894e040a882dbaa",
+        "record_count": 8,
+        "details": {},
+        "status": "VERIFIED_VALID"
+      },
+      "seasonal_benchmark_analysis.json": {
+        "description": "Four-Season Illumination Stress Benchmark",
+        "size_kb": 36.2,
+        "sha256": "daed6ede098c2a88b889262be086be192000bd8f2c030a60d60d2430c78ce150",
+        "record_count": 32,
+        "details": {
+          "seasons_evaluated": 4,
+          "total_seasonal_evaluations": 32
+        },
+        "status": "VERIFIED_VALID"
+      },
+      "sites_isru_analysis.json": {
+        "description": "ISRU Volatile Cold Trap Proximity & Accessibility",
+        "size_kb": 22.6,
+        "sha256": "066081b1258f4dae24784a9aa70b118027be76b4aa605f0daacb8c8c8f9daf80",
+        "record_count": 8,
+        "details": {
+          "evaluated_sites": 8
+        },
+        "status": "VERIFIED_VALID"
+      },
+      "mission_telemetry_2026.csv": {
+        "description": "High-Precision Hourly Time-Series Telemetry",
+        "size_kb": 663.8,
+        "sha256": "0f624fdc59d60f4aac291b06dec010bed4d0bbc1b80c702780e2eda6ce087891",
+        "record_count": 5760,
+        "details": {
+          "row_count": 5760
+        },
+        "status": "VERIFIED_VALID"
+      }
+    }
+  },
+  "physics_invariants": {
+    "all_invariants_passed": true,
+    "invariants": {
+      "Real NASA JPL Horizons Ephemeris Loaded": {
+        "status": "PASS",
+        "expected": "True",
+        "actual": "True"
+      },
+      "Real NASA PDS LRO LOLA Topography Loaded": {
+        "status": "PASS",
+        "expected": "True",
+        "actual": "True"
+      },
+      "Sub-solar Latitude Obliquity Limit (+/-1.5424 deg)": {
+        "status": "PASS",
+        "expected": "<= 1.54242 deg",
+        "actual": "1.5413 deg"
+      },
+      "Earth Libration Envelope (Lat <= 6.7, Lon <= 7.9)": {
+        "status": "PASS",
+        "expected": "<= 6.68, 7.91 deg",
+        "actual": "1.41, 3.29 deg"
+      },
+      "Planetary Curvature Drop at 20 km (-r^2/2R_M)": {
+        "status": "PASS",
+        "expected": "115.11 m",
+        "actual": "115.11 m"
+      },
+      "Polar Singularity Stereographic Map Origin (0, 0)": {
+        "status": "PASS",
+        "expected": "(0.0, 0.0)",
+        "actual": "(0.0, 0.0)"
+      },
+      "Polar Singularity Distance Degeneracy": {
+        "status": "PASS",
+        "expected": "0.0 km",
+        "actual": "0.0000 km"
+      },
+      "Periodic Longitude Wrapping (lon vs lon + 360 deg)": {
+        "status": "PASS",
+        "expected": "diff <= 0.01 deg",
+        "actual": "d_az=0.0000, d_el=0.0000 deg"
+      },
+      "Terramechanic Slope Barrier (0 on flat, inf >=15 deg)": {
+        "status": "PASS",
+        "expected": "0.0 and inf",
+        "actual": "0.0 and inf"
+      },
+      "Haworth Deep PSR Rim Horizon Obstacle (> 4.0 deg)": {
+        "status": "PASS",
+        "expected": "> 4.0 deg",
+        "actual": "7.64 deg"
+      }
+    }
+  },
+  "test_suite_execution": {
+    "total_tests": 27,
+    "passed_tests": 27,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "all_tests_passed": true
+  },
+  "zero_regression_verdict": {
+    "all_sites_validated": true,
+    "sites": [
+      {
+        "site_id": "shackleton_peak_b",
+        "site_name": "Peak Near Shackleton (Peak B)",
+        "clps_suitability_score": 16.8,
+        "illumination_percentage": 39.7,
+        "comm_percentage": 10.3,
+        "dual_operational_percentage": 0.0,
+        "status": "PASS"
+      },
+      {
+        "site_id": "connecting_ridge_cr1",
+        "site_name": "Connecting Ridge (Site CR1)",
+        "clps_suitability_score": 54.1,
+        "illumination_percentage": 75.4,
+        "comm_percentage": 44.9,
+        "dual_operational_percentage": 44.0,
+        "status": "PASS"
+      },
+      {
+        "site_id": "im2_mons_mouton",
+        "site_name": "IM-2 Athena / PRIME-1 (Mons Mouton)",
+        "clps_suitability_score": 51.4,
+        "illumination_percentage": 52.2,
+        "comm_percentage": 74.0,
+        "dual_operational_percentage": 52.2,
+        "status": "PASS"
+      },
+      {
+        "site_id": "viper_mons_mouton",
+        "site_name": "VIPER Target (Mons Mouton Plateau)",
+        "clps_suitability_score": 50.4,
+        "illumination_percentage": 53.3,
+        "comm_percentage": 70.0,
+        "dual_operational_percentage": 46.8,
+        "status": "PASS"
+      },
+      {
+        "site_id": "nobile_rim_1",
+        "site_name": "Nobile Rim 1 (West Rim Plateau)",
+        "clps_suitability_score": 18.2,
+        "illumination_percentage": 27.2,
+        "comm_percentage": 29.3,
+        "dual_operational_percentage": 5.6,
+        "status": "PASS"
+      },
+      {
+        "site_id": "faustini_rim_a",
+        "site_name": "Faustini Crater Rim A (Site LM7)",
+        "clps_suitability_score": 25.3,
+        "illumination_percentage": 38.3,
+        "comm_percentage": 32.4,
+        "dual_operational_percentage": 13.5,
+        "status": "PASS"
+      },
+      {
+        "site_id": "de_gerlache_rim_1",
+        "site_name": "de Gerlache Crater Rim 1",
+        "clps_suitability_score": 24.6,
+        "illumination_percentage": 52.4,
+        "comm_percentage": 26.4,
+        "dual_operational_percentage": 5.3,
+        "status": "PASS"
+      },
+      {
+        "site_id": "haworth_psr_control",
+        "site_name": "Haworth Crater Interior (PSR Benchmark)",
+        "clps_suitability_score": 0.0,
+        "illumination_percentage": 0.0,
+        "comm_percentage": 0.0,
+        "dual_operational_percentage": 0.0,
+        "status": "PASS"
+      }
+    ]
+  },
+  "execution_duration_sec": 2.19
+}

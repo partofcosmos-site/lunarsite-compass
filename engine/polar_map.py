@@ -16,13 +16,19 @@ def polar_to_xy(lat_deg, lon_deg):
     Origin (0,0) is the Lunar South Pole (90°S).
     Y-axis negative direction aligns with 0° Longitude (facing Earth).
     X-axis positive direction aligns with 90° East Longitude.
+    Robust to polar singularity (90°S) and periodic longitude wrapping.
     """
-    colat_rad = np.radians(90.0 - abs(lat_deg))
-    lon_rad = np.radians(lon_deg)
+    clamped_lat = max(-90.0, min(90.0, float(lat_deg)))
+    colat_deg = max(0.0, 90.0 - abs(clamped_lat))
+    if colat_deg == 0.0:
+        return 0.0, 0.0
+    colat_rad = np.radians(colat_deg)
+    lon_rad = np.radians(float(lon_deg) % 360.0)
     r = 2.0 * R_MOON_KM * np.tan(colat_rad / 2.0)
-    x = r * np.sin(lon_rad)
-    y = -r * np.cos(lon_rad)
-    return float(x), float(y)
+    x = float(r * np.sin(lon_rad))
+    y = float(-r * np.cos(lon_rad))
+    return (0.0 if abs(x) < 1e-9 else x), (0.0 if abs(y) < 1e-9 else y)
+
 
 # Prominent South Pole Geomorphological Features (Craters and Massifs)
 CRATER_FEATURES = [

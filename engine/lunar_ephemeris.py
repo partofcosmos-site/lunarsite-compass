@@ -339,10 +339,12 @@ class LunarEphemeris:
         Calculates local topocentric Azimuth and Elevation (degrees) of a celestial body
         (Sun or Earth) as viewed from a surface landing site (site_lat_deg, site_lon_deg, site_elev_m).
         """
+        site_lat_deg = max(-90.0, min(90.0, float(site_lat_deg)))
+        target_lat_deg = max(-90.0, min(90.0, float(target_lat_deg)))
         phi1 = np.radians(site_lat_deg)
-        lam1 = np.radians(site_lon_deg)
+        lam1 = np.radians(float(site_lon_deg) % 360.0)
         phi2 = np.radians(target_lat_deg)
-        lam2 = np.radians(target_lon_deg)
+        lam2 = np.radians(float(target_lon_deg) % 360.0)
 
         uZ = np.array([np.cos(phi1) * np.cos(lam1), np.cos(phi1) * np.sin(lam1), np.sin(phi1)])
         uN = np.array([-np.sin(phi1) * np.cos(lam1), -np.sin(phi1) * np.sin(lam1), np.cos(phi1)])

@@ -13,8 +13,10 @@ import {
   Calendar, 
   Compass,
   CheckCircle2,
-  AlertTriangle
+  AlertTriangle,
+  Mountain
 } from "lucide-react";
+import { LolaRadialProfileViewer } from "./LolaRadialProfileViewer";
 
 interface TelemetryChartsProps {
   telemetry: TelemetryPoint[];
@@ -29,7 +31,7 @@ export const TelemetryCharts: React.FC<TelemetryChartsProps> = ({
   currentEpochIndex,
   onEpochClick,
 }) => {
-  const [activeTab, setActiveTab] = useState<"elevation" | "skyline">("elevation");
+  const [activeTab, setActiveTab] = useState<"elevation" | "skyline" | "radial">("elevation");
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   const currentPoint = telemetry[currentEpochIndex] || telemetry[0];
@@ -160,10 +162,10 @@ export const TelemetryCharts: React.FC<TelemetryChartsProps> = ({
           </div>
 
           {/* View Mode Switch */}
-          <div className="flex items-center rounded-lg bg-slate-800/80 p-0.5 border border-slate-700 text-xs font-semibold">
+          <div className="flex items-center rounded-lg bg-slate-800/80 p-0.5 border border-slate-700 text-xs font-semibold overflow-x-auto">
             <button
               onClick={() => setActiveTab("elevation")}
-              className={`px-3 py-1 rounded-md transition ${
+              className={`px-3 py-1 rounded-md transition whitespace-nowrap ${
                 activeTab === "elevation"
                   ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm"
                   : "text-slate-400 hover:text-slate-200"
@@ -173,13 +175,24 @@ export const TelemetryCharts: React.FC<TelemetryChartsProps> = ({
             </button>
             <button
               onClick={() => setActiveTab("skyline")}
-              className={`px-3 py-1 rounded-md transition ${
+              className={`px-3 py-1 rounded-md transition whitespace-nowrap ${
                 activeTab === "skyline"
                   ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm"
                   : "text-slate-400 hover:text-slate-200"
               }`}
             >
               360° Cylindrical Skyline (TRN)
+            </button>
+            <button
+              onClick={() => setActiveTab("radial")}
+              className={`flex items-center gap-1 px-3 py-1 rounded-md transition whitespace-nowrap ${
+                activeTab === "radial"
+                  ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <Mountain className="h-3 w-3 text-cyan-400" />
+              LOLA Radial Cross-Section (20 km)
             </button>
           </div>
         </div>
@@ -434,7 +447,7 @@ export const TelemetryCharts: React.FC<TelemetryChartsProps> = ({
               </div>
             </div>
           </div>
-        ) : (
+        ) : activeTab === "skyline" ? (
           /* Tab 2: 360-Degree Cylindrical Skyline (Terrain Relative Navigation) */
           <div className="p-4 sm:p-5 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
@@ -562,6 +575,18 @@ export const TelemetryCharts: React.FC<TelemetryChartsProps> = ({
                 })()}
               </svg>
             </div>
+          </div>
+        ) : (
+          /* Tab 3: Interactive LOLA DEM Radial Topography Profile (20 km Cross-Section) */
+          <div className="p-3 sm:p-5">
+            <LolaRadialProfileViewer
+              siteId={summary.site_id}
+              siteName={summary.site_name}
+              sunAzimuth={currentPoint.sAz}
+              sunElevation={currentPoint.sEl}
+              earthAzimuth={currentPoint.eAz}
+              earthElevation={currentPoint.eEl}
+            />
           </div>
         )}
       </div>

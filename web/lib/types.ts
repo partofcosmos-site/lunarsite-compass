@@ -126,3 +126,49 @@ export interface DescentTrajectoryResult {
   flight_comm_status: "NOMINAL LOCK" | "DEGRADED" | "BLACKOUT HAZARD";
   profile_steps: DescentStep[];
 }
+
+export interface LolaRadialPoint {
+  distance_m: number;
+  elevation_m: number;
+}
+
+export interface LolaSiteMetrics {
+  min_horizon_elevation_deg: number;
+  max_horizon_elevation_deg: number;
+  mean_horizon_elevation_deg: number;
+  dominant_obstacle_azimuth_deg: number;
+  estimated_local_slope_deg: number;
+}
+
+export interface LolaSiteData {
+  site_id: string;
+  site_name: string;
+  latitude_deg: number;
+  longitude_deg: number;
+  center_lola_elevation_m: number;
+  dem_pixel_coords: [number, number];
+  horizon_mask_5deg: Record<string, number>;
+  radial_topography_profiles: Record<string, LolaRadialPoint[]>;
+  metrics: LolaSiteMetrics;
+}
+
+export interface LolaDemMetadata {
+  source: string;
+  dataset_id: string;
+  product_id: string;
+  dem_image_url: string;
+  dem_label_url: string;
+  catalog_url: string;
+  pds_geosciences_url: string;
+  projection: string;
+  map_scale_m_per_pixel: number;
+  observer_mast_height_m: number;
+  generated_utc: string;
+  status: string;
+}
+
+export interface LolaDemDataset {
+  metadata: LolaDemMetadata;
+  sites: Record<string, LolaSiteData>;
+}
+

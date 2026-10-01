@@ -288,19 +288,22 @@ To evaluate lander survivability across the lunar year, we conducted simulations
 ], border-color: rgb("dc2626"), bg-color: rgb("fef2f2"))
 
 // -----------------------------------------------------------------------------
-// SECTION 5: GEOSPATIAL MAP & SOFTWARE ARCHITECTURE
+// SECTION 5: GEOSPATIAL ARCHITECTURE & PRODUCTION SYSTEM IMPLEMENTATION
 // -----------------------------------------------------------------------------
-= 5. Geospatial Architecture & Polar Stereographic Visualizer
+= 5. Geospatial Architecture & Production System Implementation
 
-To translate mathematical models into intuitive operational decisions, *LunarSite Compass* incorporates a high-performance interactive visualizer built with Streamlit and Plotly:
+To translate mathematical models into intuitive operational decisions, *LunarSite Compass* is implemented as a production aerospace architecture combining a deterministic Python astrodynamics core with a Next.js 14 web platform deployed to the Vercel Edge:
 
-+ *LRO Polar Stereographic Cartography:* Features cartographic projections from $84 degree "S"$ to $90 degree "S"$ centered on the South Pole, rendering crater rim profiles, permanently shadowed regions (PSRs), and latitude concentric bounds ($84 degree "S", 86 degree "S", 88 degree "S", 89 degree "S"$).
-+ *Dynamic Horizon Vector Scrubbing:* Users can scrub across 720 hours of mission elapsed time. The visualizer dynamically rotates the sub-solar vector arrow $vec(S)_sun$ and sub-Earth libration vector $vec(S)_earth$, while site markers update in real time:
++ *LRO Polar Stereographic Cartography:* Cartographic projections from $84 degree "S"$ to $90 degree "S"$ centered on the South Pole, rendering crater rim profiles, permanently shadowed regions (PSRs), and latitude concentric bounds ($84 degree "S", 86 degree "S", 88 degree "S", 89 degree "S"$).
++ *Dynamic Horizon Vector Scrubbing:* Users scrub across 720 hours of mission elapsed time. The visualizer dynamically rotates the sub-solar vector arrow $vec(S)_sun$ and sub-Earth libration vector $vec(S)_earth$, updating site markers in real time:
   - #text(fill: rgb("10b981"), weight: "bold")[🟢 Dual Operational:] Simultaneous solar power and DTE communications.
   - #text(fill: rgb("d97706"), weight: "bold")[🟡 Sun Only:] Power generation active; DTE occulted by terrain.
   - #text(fill: rgb("0284c7"), weight: "bold")[🔵 Comm Only:] Direct ground station link open; cryogenic night conditions.
   - #text(fill: rgb("dc2626"), weight: "bold")[🔴 Blackout:] Catastrophic loss of both solar illumination and Earth contact.
-+ *Offline-First Vectorized Solver:* All topocentric equations are vectorized using NumPy and SciPy. The entire 5,760-epoch 8-site benchmark computes in under 2.8 seconds on standard desktop hardware without requiring cloud compute or active internet access.
++ *Three.js 3D Terminal Descent Simulator:* Renders Powered Descent Initiation (PDI) guidance, attitude pitch profiles, gravity-turn trajectories, and landing gear slope clearance against LOLA 3D terrain elevation models.
++ *ISRU Volatile Proximity & Mobility Planner:* Analyzes traversability corridors ($< 10 degree$ slope) and standoff distances to cryogenic cold traps ($T < 40 "K"$), validating rover exploration and subsurface drilling access (e.g., TRIDENT 1-m drill).
++ *NASA JPL Horizons & PDS LOLA Ingestion:* Ingests real-world topocentric ephemerides from NASA JPL Horizons and calibrated 20m LOLA altimetry from the NASA Planetary Data System (PDS) Geosciences Node, verified with automated Flight Director Go/No-Go certification gates (`certify_mission.py`).
++ *Offline-First Vectorized Solver & Global Edge Deployment:* Topocentric equations are vectorized via NumPy/SciPy, computing 5,760 epochs in $<2.8 "s"$. The Next.js 14 frontend is pre-rendered via static optimization and served with sub-millisecond edge latency (`lunarsite-compass.vercel.app`).
 
 // -----------------------------------------------------------------------------
 // SECTION 6: CONCLUSION & MISSION RECOMMENDATIONS

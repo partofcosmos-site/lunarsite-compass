@@ -12,6 +12,12 @@ from typing import Dict, List, Any, Tuple
 
 from engine.lunar_ephemeris import LunarEphemeris
 from engine.lola_terrain import LOLATerrainEngine
+from engine.descent_trajectory import (
+    DescentTrajectorySimulator,
+    SPEED_OF_LIGHT_MS,
+    X_BAND_FREQ_HZ,
+    LUNAR_RADIUS_M,
+)
 
 class MissionWindowSolver:
     """Evaluates landing site feasibility over arbitrary temporal mission windows."""
@@ -157,6 +163,31 @@ class MissionWindowSolver:
             "clps_suitability_score": round(suitability_score, 1)
         }
 
+    def compute_pdi_descent_profile(
+        self,
+        site_lat: float,
+        site_lon: float,
+        site_elev_m: float,
+        earth_elev_deg: float,
+        earth_az_deg: float,
+        horizon_elev_deg: float = 0.5,
+        burn_time_s: float = 720.0,
+        step_s: float = 10.0
+    ) -> Dict[str, Any]:
+        """
+        Computes DSN link budget and X-band Doppler shift curves during Powered Descent Initiation (PDI) burn.
+        """
+        sim = DescentTrajectorySimulator(burn_time_s=burn_time_s)
+        return sim.compute_trajectory(
+            site_lat=site_lat,
+            site_lon=site_lon,
+            site_elev_m=site_elev_m,
+            earth_elev_deg=earth_elev_deg,
+            earth_az_deg=earth_az_deg,
+            horizon_elev_deg=horizon_elev_deg,
+            step_s=step_s
+        )
+
     @staticmethod
     def _max_consecutive(bool_array: np.ndarray) -> int:
         """Finds length of longest consecutive True run."""
@@ -170,3 +201,41 @@ class MissionWindowSolver:
             else:
                 current_count = 0
         return max_count
+
+# ---------------------------------------------------------------------------
+# DSN X-Band Link Budget & Doppler Shift Analytical Functions
+# ---------------------------------------------------------------------------
+
+def compute_dsn_link_budget(
+    altitude_m: float,
+    earth_elev_deg: float,
+    horizon_elev_deg: float,
+    normalized_time: float
+) -> Tuple[float, float, bool]:
+    """
+    Computes DSN X-Band line-of-sight elevation clearance and link margin in dB.
+    Returns:
+        (clearance_deg, link_margin_db, is_los_clear)
+    """
+    geometric_dip_deg = float(np.degrees(np.sqrt(2.0 * max(altitude_m, 0.0) / LUNAR_RADIUS_M)))
+    effective_horizon_deg = horizon_elev_deg - geometric_dip_deg
+    clearance_deg = earth_elev_deg - effective_horizon_deg
+    is_los_clear = clearance_deg >= 0.0
+    base_snr_margin_db = 14.5 - 2.5 * normalized_time
+    link_margin_db = float(base_snr_margin_db if is_los_clear else -30.0)
+    return float(clearance_deg), link_margin_db, bool(is_los_clear)
+
+def compute_xband_doppler_shift(
+    velocity_ms: float,
+    earth_az_deg: float,
+    normalized_time: float,
+    carrier_freq_hz: float = X_BAND_FREQ_HZ
+) -> float:
+    """
+    Computes topocentric X-band Doppler shift in kHz along Earth line-of-sight vector.
+    """
+    approach_angle_rad = np.radians(abs(earth_az_deg - 180.0) % 90.0)
+    radial_velocity_ms = velocity_ms * np.cos(approach_angle_rad) * (1.0 - normalized_time)
+    doppler_shift_khz = (radial_velocity_ms / SPEED_OF_LIGHT_MS) * carrier_freq_hz / 1000.0
+    return float(doppler_shift_khz)
+

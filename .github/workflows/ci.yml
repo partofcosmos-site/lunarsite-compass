@@ -1,0 +1,96 @@
+name: CI/CD Mission Verification & Quality Gate
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test-astrodynamics-engine:
+    name: Astrodynamics & NASA Data Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy requests pandas scipy plotly
+
+      - name: Run Core Astrodynamics Unit Tests (27+ Tests)
+        run: |
+          python -m unittest discover tests -v
+
+      - name: Run Autonomous Self-Audit & Zero-Regression Verification
+        run: |
+          python scripts/autonomous_self_audit.py
+
+      - name: Run NASA Data Integrity & Horizon Verification
+        run: |
+          python scripts/fetch_real_nasa_data.py --verify
+
+      - name: Run Flight Director Mission Certification
+        run: |
+          python scripts/certify_mission.py
+
+      - name: Upload Audit Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: autonomous-audit-report
+          path: data/autonomous_audit_report.json
+
+  build-web-platform:
+    name: Next.js 14 Production Web Platform Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Node Dependencies
+        run: |
+          npm ci || npm install
+
+      - name: Verify TypeScript & Build Static Export
+        run: |
+          npm run build
+
+  compile-typst-paper:
+    name: Typst Research Paper Compilation & QA Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Typst
+        uses: typst-community/setup-typst@v3
+
+      - name: Compile Research Paper PDF
+        run: |
+          typst compile docs/LUNARSITE_COMPASS_RESEARCH_PAPER.typ docs/LUNARSITE_COMPASS_RESEARCH_PAPER.pdf
+
+      - name: Upload Research Paper Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lunarsite-compass-research-paper
+          path: docs/LUNARSITE_COMPASS_RESEARCH_PAPER.pdf
+
