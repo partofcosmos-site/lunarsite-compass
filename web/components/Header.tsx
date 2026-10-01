@@ -13,7 +13,8 @@ import {
   ChevronRight, 
   Layers, 
   ShieldCheck,
-  BookOpen
+  BookOpen,
+  Quote
 } from "lucide-react";
 
 interface HeaderProps {
@@ -25,6 +26,7 @@ interface HeaderProps {
   currentUtc: string;
   onEpochChange: React.Dispatch<React.SetStateAction<number>>;
   onOpenMethodology: () => void;
+  onOpenCitation: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -36,6 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
   currentUtc,
   onEpochChange,
   onOpenMethodology,
+  onOpenCitation,
 }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
@@ -170,6 +173,15 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <BookOpen className="h-4 w-4" />
             <span className="hidden sm:inline">Methodology</span>
+          </button>
+
+          <button
+            onClick={onOpenCitation}
+            className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg border border-slate-700 bg-space-900 text-slate-300 hover:text-cyan-300 hover:border-cyan-500/40 transition shadow-sm"
+            title="Academic Citation & BibTeX"
+          >
+            <Quote className="h-4 w-4 text-cyan-400" />
+            <span className="hidden sm:inline">Cite</span>
           </button>
         </div>
       </div>

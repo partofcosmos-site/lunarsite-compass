@@ -10,6 +10,7 @@ import { DescentSimulator } from "../components/DescentSimulator";
 import { IsruTraversePlanner } from "../components/IsruTraversePlanner";
 import { SeasonalStressTest } from "../components/SeasonalStressTest";
 import { MethodologyModal } from "../components/MethodologyModal";
+import { CitationModal } from "../components/CitationModal";
 
 import {
   CANDIDATE_SITES,
@@ -33,7 +34,8 @@ import {
   Snowflake, 
   ShieldCheck, 
   Info,
-  ExternalLink
+  ExternalLink,
+  Quote
 } from "lucide-react";
 
 export default function Home() {
@@ -43,6 +45,7 @@ export default function Home() {
     "map" | "telemetry" | "scorecard" | "descent" | "isru" | "seasons"
   >("map");
   const [isMethodologyOpen, setIsMethodologyOpen] = useState<boolean>(false);
+  const [isCitationOpen, setIsCitationOpen] = useState<boolean>(false);
 
   // Selected site and summary data
   const selectedSite = useMemo(() => {
@@ -87,6 +90,7 @@ export default function Home() {
         currentUtc={currentUtc}
         onEpochChange={setEpochIndex}
         onOpenMethodology={() => setIsMethodologyOpen(true)}
+        onOpenCitation={() => setIsCitationOpen(true)}
       />
 
       {/* Main Container */}
@@ -268,7 +272,13 @@ export default function Home() {
             <span>•</span>
             <span>JPL Horizons DE440</span>
             <span>•</span>
-            <span>Vercel Production Ready</span>
+            <button
+              onClick={() => setIsCitationOpen(true)}
+              className="flex items-center gap-1 text-slate-400 hover:text-cyan-300 transition underline underline-offset-2"
+            >
+              <Quote className="h-3 w-3" />
+              <span>Cite Platform</span>
+            </button>
           </div>
         </div>
       </footer>
@@ -277,6 +287,12 @@ export default function Home() {
       <MethodologyModal
         isOpen={isMethodologyOpen}
         onClose={() => setIsMethodologyOpen(false)}
+      />
+
+      {/* Academic Citation Modal */}
+      <CitationModal
+        isOpen={isCitationOpen}
+        onClose={() => setIsCitationOpen(false)}
       />
     </div>
   );
