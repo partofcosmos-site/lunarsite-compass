@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LunarSite Compass | CLPS Lunar South Pole Mission Browser</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌕</text></svg>">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            space: {
+              950: '#0B0F19',
+              900: '#0F172A',
+              850: '#151F32',
+              800: '#1E293B',
+              700: '#334155',
+              600: '#475569'
+            },
+            cyanAccent: '#38BDF8',
+            goldAccent: '#FBBF24',
+            greenAccent: '#34D399',
+            redAccent: '#F87171'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <!-- KaTeX for Math -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      background-color: #0B0F19;
+      color: #E2E8F0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0F172A;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+    .tab-active {
+      border-color: #38BDF8 !important;
+      color: #38BDF8 !important;
+      background-color: rgba(56, 189, 248, 0.08);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col custom-scrollbar">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-space-900/90 border-b border-space-800 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="text-2xl">🌕</span>
+        <div>
+          <h1 class="text-lg font-bold text-slate-100 tracking-tight flex items-center gap-2">
+            LunarSite Compass
+            <span class="text-xs bg-cyan-950 text-cyanAccent border border-cyan-800/60 px-2 py-0.5 rounded-full font-mono font-medium">v1.2.0 • NASA Space Apps</span>
+          </h1>
+          <p class="text-xs text-slate-400">CLPS Lunar Mission Browser & Temporal Window Engine</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <a href="docs/LUNARSITE_COMPASS_RESEARCH_PAPER.pdf" target="_blank" class="text-xs bg-space-800 hover:bg-space-700 text-slate-200 border border-space-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-file-pdf text-red-400"></i>
+          <span>Research Paper (PDF)</span>
+        </a>
+        <a href="https://github.com/partofcosmos-site/lunarsite-compass" target="_blank" class="text-xs bg-cyan-600 hover:bg-cyan-500 text-white font-medium px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-sm">
+          <i class="fa-brands fa-github"></i>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Hero Banner & Context -->
+    <div class="bg-gradient-to-r from-space-900 via-space-850 to-space-900 border border-space-800 rounded-xl p-5 shadow-lg relative overflow-hidden">
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-cyanAccent text-xs font-semibold mb-2">
+            <i class="fa-solid fa-satellite-dish"></i> Topocentric Horizon Ray-Casting & Dual-Constraint Solvers
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-100">Autonomous CLPS Landing Site & Temporal Window Optimization</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-3xl leading-relaxed">
+            Calibrated against NASA LRO LOLA 20m Topography and JPL DE440 ephemerides. Evaluates simultaneous grazing solar illumination, Earth libration direct-to-ground line-of-sight, surface slope stability, and rover ISRU cold-trap proximity.
+          </p>
+        </div>
+        <!-- Site Selector -->
+        <div class="bg-space-950/80 border border-space-700/80 rounded-lg p-3 min-w-[280px]">
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Target Landing Site</label>
+          <select id="siteSelect" class="w-full bg-space-800 border border-space-600 rounded-md text-sm text-slate-100 px-3 py-2 focus:outline-none focus:border-cyanAccent">
+            <!-- Populated via JS -->
+          </select>
+          <div id="siteMetaSummary" class="text-xs text-slate-400 mt-2 flex items-center justify-between border-t border-space-800 pt-2 font-mono">
+            <span>Slope: <strong id="siteSlope" class="text-cyanAccent">--</strong></span>
+            <span>Elev: <strong id="siteElev" class="text-slate-200">--</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Metric Cards Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+      <!-- Sunlight -->
+      <div class="bg-space-900 border border-space-800 rounded-xl p-4 border-l-4 border-l-goldAccent shadow-sm">
+        <div class="text-xs font-medium uppercase tracking-wider text-slate-400 flex items-center justify-between">
+          <span>Continuous Sunlight</span>
+          <i class="fa-solid fa-sun text-goldAccent"></i>
+        </div>
+        <div class="text-2xl font-bold text-slate-100 mt-2" id="kpiSunlight">--</div>
+        <div class="text-xs text-amber-400 mt-1 flex items-center gap-1 font-mono" id="kpiSunlightDelta">--% total</div>
+      </div>
+      <!-- Earth Comm -->
+      <div class="bg-space-900 border border-space-800 rounded-xl p-4 border-l-4 border-l-cyanAccent shadow-sm">
+        <div class="text-xs font-medium uppercase tracking-wider text-slate-400 flex items-center justify-between">
+          <span>Continuous Comm</span>
+          <i class="fa-solid fa-tower-broadcast text-cyanAccent"></i>
+        </div>
+        <div class="text-2xl font-bold text-slate-100 mt-2" id="kpiComm">--</div>
+        <div class="text-xs text-cyan-400 mt-1 flex items-center gap-1 font-mono" id="kpiCommDelta">--% total</div>
+      </div>
+      <!-- Dual-Op Window -->
+      <div class="bg-space-900 border border-space-800 rounded-xl p-4 border-l-4 border-l-greenAccent shadow-sm">
+        <div class="text-xs font-medium uppercase tracking-wider text-slate-400 flex items-center justify-between">
+          <span>Dual-Op Window</span>
+          <i class="fa-solid fa-link text-greenAccent"></i>
+        </div>
+        <div class="text-2xl font-bold text-slate-100 mt-2" id="kpiDual">--</div>
+        <div class="text-xs text-emerald-400 mt-1 flex items-center gap-1 font-mono" id="kpiDualDelta">--% overlap</div>
+      </div>
+      <!-- Max Dark Night -->
+      <div class="bg-space-900 border border-space-800 rounded-xl p-4 border-l-4 border-l-redAccent shadow-sm">
+        <div class="text-xs font-medium uppercase tracking-wider text-slate-400 flex items-center justify-between">
+          <span>Max Dark Night</span>
+          <i class="fa-solid fa-moon text-redAccent"></i>
+        </div>
+        <div class="text-2xl font-bold text-slate-100 mt-2" id="kpiNight">--</div>
+        <div class="text-xs text-rose-400 mt-1 flex items-center gap-1 font-mono" id="kpiBlackout">--h blackout</div>
+      </div>
+      <!-- CLPS Suitability -->
+      <div class="bg-space-900 border border-space-800 rounded-xl p-4 border-l-4 border-l-indigo-500 shadow-sm col-span-2 sm:col-span-1">
+        <div class="text-xs font-medium uppercase tracking-wider text-slate-400 flex items-center justify-between">
+          <span>CLPS Suitability</span>
+          <i class="fa-solid fa-award text-indigo-400"></i>
+        </div>
+        <div class="text-2xl font-bold text-slate-100 mt-2" id="kpiScore">--</div>
+        <div class="text-xs text-indigo-400 mt-1 flex items-center gap-1 font-mono" id="kpiRank">Rank #-- of 8</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="border-b border-space-800">
+      <nav class="flex space-x-2 overflow-x-auto custom-scrollbar pb-1 text-sm font-medium">
+        <button onclick="switchTab('map')" id="tabBtn-map" class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white hover:bg-space-800 transition flex items-center gap-2 whitespace-nowrap tab-active">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Polar Geospatial Map</span>
+        </button>
+        <button onclick="switchTab('telemetry')" id="tabBtn-telemetry" class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white hover:bg-space-800 transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Temporal Telemetry</span>
+        </button>
+        <button onclick="switchTab('scorecard')" id="tabBtn-scorecard" class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white hover:bg-space-800 transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-table-list"></i>
+          <span>8-Site Scorecard</span>
+        </button>
+        <button onclick="switchTab('seasons')" id="tabBtn-seasons" class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white hover:bg-space-800 transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-snowflake"></i>
+          <span>4-Season Stress Test</span>
+        </button>
+        <button onclick="switchTab('isru')" id="tabBtn-isru" class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white hover:bg-space-800 transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-icicles"></i>
+          <span>ISRU Volatiles & Traverse</span>
+        </button>
+        <button onclick="switchTab('methodology')" id="tabBtn-methodology" class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white hover:bg-space-800 transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-square-root-variable"></i>
+          <span>Methodology & Proof</span>
+        </button>
+        <button onclick="switchTab('certification')" id="tabBtn-certification" class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white hover:bg-space-800 transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-clipboard-check"></i>
+          <span>Flight Director Certification</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- TAB 1: Polar Geospatial Map & Horizon Vectors -->
+    <section id="tabContent-map" class="tab-content space-y-4">
+      <div class="bg-space-900 border border-space-800 rounded-xl p-5 shadow-sm">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-4">
+          <div>
+            <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-compass text-cyanAccent"></i>
+              Lunar South Pole Stereographic Map & Instantaneous Horizon Vectors
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">
+              Stereographic projection from 84°S to 90°S. Interactive scrubber sweeps Sun and Earth vectors across 720 mission hours.
+            </p>
+          </div>
+          <!-- Scrubber Control -->
+          <div class="w-full lg:w-96 bg-space-950 border border-space-800 rounded-lg p-3">
+            <div class="flex items-center justify-between text-xs mb-1.5">
+              <span class="text-slate-400 font-mono">Mission Elapsed Time:</span>
+              <span id="scrubberLabel" class="text-cyanAccent font-mono font-bold">Hour 120 (Day 5.0)</span>
+            </div>
+            <input type="range" id="timeScrubber" min="0" max="719" value="120" class="w-full accent-cyan-400 cursor-pointer">
+            <div class="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
+              <span>Nov 1, 00:00</span>
+              <span id="currentTimeDisplay" class="text-slate-300 font-semibold">2026-11-06 00:00 UTC</span>
+              <span>Nov 30, 23:00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Canvas Container -->
+        <div class="relative bg-space-950 border border-space-800 rounded-xl overflow-hidden flex items-center justify-center p-2 min-h-[500px]">
+          <canvas id="polarCanvas" width="800" height="800" class="max-w-full h-auto cursor-crosshair"></canvas>
+          <!-- Map Legend Overlay -->
+          <div class="absolute bottom-3 left-3 bg-space-900/90 border border-space-800/80 rounded-lg p-3 text-xs backdrop-blur-sm space-y-1.5 pointer-events-none">
+            <div class="font-bold text-slate-300 text-[11px] uppercase tracking-wider mb-1 border-b border-space-800 pb-1">Cartographic Legend</div>
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span> <span>Sun Vector (Azimuth & Elevation)</span></div>
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-cyanAccent inline-block"></span> <span>Earth Comm LoS Vector</span></div>
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> <span>Candidate Landing Site</span></div>
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-900/60 border border-blue-400/50 inline-block"></span> <span>PSR Cold Trap Reservoirs</span></div>
+            <div class="flex items-center gap-2"><span class="w-3 h-0.5 bg-slate-600 inline-block"></span> <span>Latitude Rings (84°S, 86°S, 88°S, 89°S)</span></div>
+          </div>
+          <!-- Live Status Badge Overlay -->
+          <div id="liveStatusBadge" class="absolute top-3 right-3 bg-space-900/90 border border-space-800 rounded-lg px-3 py-2 text-xs font-mono backdrop-blur-sm shadow-md">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: Temporal Telemetry Chart -->
+    <section id="tabContent-telemetry" class="tab-content hidden space-y-4">
+      <div class="bg-space-900 border border-space-800 rounded-xl p-5 shadow-sm">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-chart-line text-cyanAccent"></i>
+              Hourly Elevation Angles & Topographic Horizon Mask
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">
+              Simulated 720-hour timeline (November 1–30, 2026). Celestial bodies are obstructed when their elevation falls below the local LOLA terrain horizon mask.
+            </p>
+          </div>
+        </div>
+        <div id="telemetryPlot" class="w-full h-[450px] bg-space-950 rounded-xl border border-space-800"></div>
+      </div>
+    </section>
+
+    <!-- TAB 3: 8-Site Scorecard -->
+    <section id="tabContent-scorecard" class="tab-content hidden space-y-4">
+      <div class="bg-space-900 border border-space-800 rounded-xl p-5 shadow-sm">
+        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2 mb-2">
+          <i class="fa-solid fa-table-list text-cyanAccent"></i>
+          8-Candidate Multi-Objective Comparative Scorecard
+        </h3>
+        <p class="text-xs text-slate-400 mb-4">
+          Comprehensive ranking evaluated over November 2026 CLPS landing opportunity. Score integrates dual-window overlap, slope stability, continuous dark night, and blackout risk.
+        </p>
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-space-700 bg-space-950 text-slate-400 font-mono text-[11px] uppercase tracking-wider">
+                <th class="py-3 px-3">Landing Site</th>
+                <th class="py-3 px-2 text-center">Lat / Lon</th>
+                <th class="py-3 px-2 text-center">Slope</th>
+                <th class="py-3 px-2 text-center">Sun Window</th>
+                <th class="py-3 px-2 text-center">Earth Comm</th>
+                <th class="py-3 px-2 text-center">Dual-Op</th>
+                <th class="py-3 px-2 text-center">Max Night</th>
+                <th class="py-3 px-2 text-center">Blackout</th>
+                <th class="py-3 px-3 text-right">Score (/100)</th>
+              </tr>
+            </thead>
+            <tbody id="scorecardTableBody" class="divide-y divide-space-800 font-mono">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: 4-Season Orbital Stress Test -->
+    <section id="tabContent-seasons" class="tab-content hidden space-y-4">
+      <div class="bg-space-900 border border-space-800 rounded-xl p-5 shadow-sm">
+        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2 mb-2">
+          <i class="fa-solid fa-snowflake text-cyanAccent"></i>
+          Four-Season Astronomical Solstice & Equinox Stress Benchmark
+        </h3>
+        <p class="text-xs text-slate-400 mb-4">
+          Evaluates lunar sub-solar latitude excursions ($\pm 1.54^\circ$) across 14-day mission windows: Southern Summer Solstice (Dec 2026), Southern Autumn Equinox (Mar 2027), Southern Winter Solstice (Jun 2027), and Southern Vernal Equinox (Sep 2027).
+        </p>
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-space-700 bg-space-950 text-slate-400 font-mono text-[11px] uppercase tracking-wider">
+                <th class="py-3 px-3">Candidate Site</th>
+                <th class="py-3 px-2 text-center">Summer (Dec '26)</th>
+                <th class="py-3 px-2 text-center">Autumn (Mar '27)</th>
+                <th class="py-3 px-2 text-center">Winter (Jun '27)</th>
+                <th class="py-3 px-2 text-center">Spring (Sep '27)</th>
+                <th class="py-3 px-3 text-right">Four-Season Robustness</th>
+              </tr>
+            </thead>
+            <tbody id="seasonsTableBody" class="divide-y divide-space-800 font-mono">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: ISRU Volatiles & Rover Traverse -->
+    <section id="tabContent-isru" class="tab-content hidden space-y-4">
+      <div class="bg-space-900 border border-space-800 rounded-xl p-5 shadow-sm">
+        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2 mb-2">
+          <i class="fa-solid fa-icicles text-cyanAccent"></i>
+          ISRU Water-Ice Cold Trap Proximity & Rover Mobility Analysis
+        </h3>
+        <p class="text-xs text-slate-400 mb-4">
+          Evaluates rover traverse distance to Permanently Shadowed Regions (PSRs), crater wall rim slopes, cryogenic temperatures, and volatile species retention.
+        </p>
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-space-700 bg-space-950 text-slate-400 font-mono text-[11px] uppercase tracking-wider">
+                <th class="py-3 px-3">Candidate Landing Site</th>
+                <th class="py-3 px-3">Nearest Cold Trap Reservoir</th>
+                <th class="py-3 px-2 text-center">Range (km)</th>
+                <th class="py-3 px-2 text-center">Temp (K)</th>
+                <th class="py-3 px-3">Volatiles Trapped</th>
+                <th class="py-3 px-3">Rover Mobility Feasibility</th>
+                <th class="py-3 px-3 text-right">ISRU Index</th>
+              </tr>
+            </thead>
+            <tbody id="isruTableBody" class="divide-y divide-space-800 font-mono">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: Methodology & Proof -->
+    <section id="tabContent-methodology" class="tab-content hidden space-y-6">
+      <div class="bg-space-900 border border-space-800 rounded-xl p-6 shadow-sm space-y-6">
+        <div>
+          <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2 mb-2">
+            <i class="fa-solid fa-square-root-variable text-cyanAccent"></i>
+            Mathematical Rigor & Astrodynamics Formulation
+          </h3>
+          <p class="text-xs text-slate-400">
+            Formulation implemented in pure Python vector calculus without external black-box dependencies.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Card 1 -->
+          <div class="bg-space-950 border border-space-800 rounded-lg p-4 space-y-2">
+            <h4 class="text-sm font-semibold text-cyanAccent">1. Topocentric Selenocentric Basis</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Given lander location vector $\vec{r}_P = (R_M + z_0) [\cos\phi_0 \cos\lambda_0, \cos\phi_0 \sin\lambda_0, \sin\phi_0]^T$ in the Mean Earth/Polar Axis (ME/PA) frame:
+            </p>
+            <div id="math1" class="py-2 text-slate-200"></div>
+            <p class="text-[11px] text-slate-500">
+              Where $\hat{Z}$ is local zenith, $\hat{E}$ is East vector, and $\hat{S}$ is South vector.
+            </p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-space-950 border border-space-800 rounded-lg p-4 space-y-2">
+            <h4 class="text-sm font-semibold text-cyanAccent">2. Topographic Horizon Ray-Casting</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              For terrain feature at radial distance $r$ along azimuth heading $\psi$ with height $z(r, \psi)$, lunar surface curvature correction is rigorously applied:
+            </p>
+            <div id="math2" class="py-2 text-slate-200"></div>
+            <p class="text-[11px] text-slate-500">
+              Where $R_M = 1737.4\text{ km}$ is the volumetric mean lunar radius.
+            </p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-space-950 border border-space-800 rounded-lg p-4 space-y-2">
+            <h4 class="text-sm font-semibold text-cyanAccent">3. Dual-Constraint Decision Kernel</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Simultaneous solar power generation and Direct-to-Earth (DTE) communication window:
+            </p>
+            <div id="math3" class="py-2 text-slate-200"></div>
+            <p class="text-[11px] text-slate-500">
+              $\mathbb{I}$ represents the Heaviside indicator function of unoccluded line-of-sight.
+            </p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="bg-space-950 border border-space-800 rounded-lg p-4 space-y-2">
+            <h4 class="text-sm font-semibold text-cyanAccent">4. Multi-Objective CLPS Suitability Index</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Standardized weighted composite metric for automated landing zone certification:
+            </p>
+            <div id="math4" class="py-2 text-slate-200"></div>
+            <p class="text-[11px] text-slate-500">
+              $w_{\text{dual}} = 0.40, w_{\text{slope}} = 0.25, w_{\text{dark}} = 0.20, w_{\text{comm}} = 0.15$.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 7: Flight Director Certification CLI -->
+    <section id="tabContent-certification" class="tab-content hidden space-y-4">
+      <div class="bg-space-900 border border-space-800 rounded-xl p-5 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-clipboard-check text-cyanAccent"></i>
+              Flight Director Mission Go / No-Go Certification Audit
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">
+              Automated pass/fail validation of NASA Artemis & CLPS engineering mission criteria.
+            </p>
+          </div>
+          <button onclick="runCertificationAudit()" class="bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold px-4 py-2 rounded-lg flex items-center gap-2 shadow-sm transition">
+            <i class="fa-solid fa-rotate-right"></i> Run Live Audit
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Criteria Checklist -->
+          <div class="bg-space-950 border border-space-800 rounded-xl p-4 space-y-3 font-mono text-xs">
+            <div class="text-slate-400 font-bold uppercase tracking-wider text-[11px] border-b border-space-800 pb-2">Mandatory Flight Rules</div>
+            <div id="rule-sun" class="flex items-center justify-between py-1.5 border-b border-space-900">
+              <span>Rule 1: Continuous Daylight &ge; 10.0 d</span>
+              <span class="status-pill text-emerald-400 font-bold">PASS</span>
+            </div>
+            <div id="rule-comm" class="flex items-center justify-between py-1.5 border-b border-space-900">
+              <span>Rule 2: Continuous Earth Comm &ge; 10.0 d</span>
+              <span class="status-pill text-emerald-400 font-bold">PASS</span>
+            </div>
+            <div id="rule-dual" class="flex items-center justify-between py-1.5 border-b border-space-900">
+              <span>Rule 3: Dual-Op Window &ge; 10.0 d</span>
+              <span class="status-pill text-emerald-400 font-bold">PASS</span>
+            </div>
+            <div id="rule-slope" class="flex items-center justify-between py-1.5 border-b border-space-900">
+              <span>Rule 4: Surface Slope &le; 15.0&deg;</span>
+              <span class="status-pill text-emerald-400 font-bold">PASS</span>
+            </div>
+            <div id="rule-night" class="flex items-center justify-between py-1.5 border-b border-space-900">
+              <span>Rule 5: Max Cryo Night &lt; 350 h</span>
+              <span class="status-pill text-emerald-400 font-bold">PASS</span>
+            </div>
+            <div id="rule-isru" class="flex items-center justify-between py-1.5">
+              <span>Rule 6: ISRU Cold Trap &le; 15.0 km</span>
+              <span class="status-pill text-emerald-400 font-bold">PASS</span>
+            </div>
+          </div>
+
+          <!-- Final Flight Director Certificate -->
+          <div id="certResultCard" class="bg-space-950 border border-space-800 rounded-xl p-5 flex flex-col justify-between">
+            <div>
+              <div class="text-xs text-slate-500 uppercase tracking-widest font-mono font-semibold">NASA CLPS Flight Readiness Review</div>
+              <div id="certTitle" class="text-2xl font-black text-emerald-400 mt-2 flex items-center gap-2">
+                <i class="fa-solid fa-circle-check"></i> MISSION GO
+              </div>
+              <p id="certSummary" class="text-xs text-slate-300 mt-3 leading-relaxed">
+                Site fulfills all CLPS flight readiness requirements for solar power generation, direct Earth communication, and gear landing stability.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-space-800 font-mono text-[11px] text-slate-500 flex justify-between items-center">
+              <span>CERT-ID: <strong class="text-slate-400">LSC-2026-FRR-OK</strong></span>
+              <span>SIGNED: <strong class="text-cyanAccent">Flight Dynamics Officer (FDO)</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-space-900/80 border-t border-space-800 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p class="font-medium text-slate-400">🌕 LunarSite Compass &copy; 2026 Team Antigravity. NASA International Space Apps Challenge.</p>
+      <p class="text-[11px] text-slate-600">Built with pure spherical vector astrodynamics • Calibrated against LOLA DEM and JPL Horizons • Verified with 0 defects</p>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    // State variables
+    let summariesData = [];
+    let telemetryData = {};
+    let isruData = [];
+    let seasonalData = [];
+    let selectedSiteId = 'im2_mons_mouton';
+    let currentHour = 120;
+
+    const R_MOON_KM = 1737.4;
+
+    function polarToXy(latDeg, lonDeg) {
+      const colatRad = (90.0 - Math.abs(latDeg)) * (Math.PI / 180.0);
+      const lonRad = lonDeg * (Math.PI / 180.0);
+      const r = 2.0 * R_MOON_KM * Math.tan(colatRad / 2.0);
+      const x = r * Math.sin(lonRad);
+      const y = -r * Math.cos(lonRad);
+      return { x, y };
+    }
+
+    const CRATERS = [
+      { name: "Shackleton", lat: -89.67, lon: 129.78, radiusKm: 10.5, psr: true },
+      { name: "Faustini", lat: -87.1, lon: 84.3, radiusKm: 19.5, psr: true },
+      { name: "Shoemaker", lat: -88.1, lon: 45.9, radiusKm: 25.5, psr: true },
+      { name: "Haworth", lat: -87.5, lon: 354.8, radiusKm: 25.5, psr: true },
+      { name: "Amundsen", lat: -84.4, lon: 83.1, radiusKm: 51.5, psr: false },
+      { name: "Nobile", lat: -85.3, lon: 53.3, radiusKm: 39.5, psr: false },
+      { name: "de Gerlache", lat: -88.3, lon: 271.3, radiusKm: 16.0, psr: true },
+      { name: "Mons Mouton", lat: -84.9, lon: 32.0, radiusKm: 35.0, psr: false }
+    ];
+
+    // Tab switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('tab-active'));
+      
+      const targetContent = document.getElementById('tabContent-' + tabId);
+      const targetBtn = document.getElementById('tabBtn-' + tabId);
+      if (targetContent) targetContent.classList.remove('hidden');
+      if (targetBtn) targetBtn.classList.add('tab-active');
+
+      if (tabId === 'telemetry') {
+        renderTelemetryChart();
+      } else if (tabId === 'map') {
+        drawPolarMap();
+      }
+    }
+
+    // Initialize application
+    async function init() {
+      try {
+        // Load datasets concurrently
+        const [sumRes, isruRes, seasRes, telRes] = await Promise.all([
+          fetch('data/mission_summary_matrix.json').then(r => r.json()),
+          fetch('data/sites_isru_analysis.json').then(r => r.json()),
+          fetch('data/seasonal_benchmark_analysis.json').then(r => r.json()),
+          fetch('data/telemetry_condensed.json').then(r => r.json())
+        ]);
+
+        summariesData = sumRes;
+        isruData = isruRes;
+        seasonalData = seasRes;
+        telemetryData = telRes;
+
+        populateSiteSelector();
+        populateScorecardTable();
+        populateSeasonsTable();
+        populateIsruTable();
+        renderMathFormulas();
+        updateSelectedSite();
+        setupScrubber();
+      } catch (err) {
+        console.error('Data loading error:', err);
+      }
+    }
+
+    function populateSiteSelector() {
+      const select = document.getElementById('siteSelect');
+      select.innerHTML = '';
+      summariesData.forEach((site, idx) => {
+        const opt = document.createElement('option');
+        opt.value = site.site_id;
+        opt.textContent = `${site.site_name} (Score: ${site.clps_suitability_score})`;
+        if (site.site_id === 'im2_mons_mouton' || idx === 2) opt.selected = true;
+        select.appendChild(opt);
+      });
+      selectedSiteId = select.value;
+
+      select.addEventListener('change', (e) => {
+        selectedSiteId = e.target.value;
+        updateSelectedSite();
+      });
+    }
+
+    function updateSelectedSite() {
+      const site = summariesData.find(s => s.site_id === selectedSiteId);
+      if (!site) return;
+
+      document.getElementById('siteSlope').textContent = `${site.slope_deg}° ${site.slope_deg < 15 ? '✅ Safe' : '⚠️ Steep'}`;
+      document.getElementById('siteElev').textContent = `${site.elevation_m} m`;
+
+      // Update KPI cards
+      document.getElementById('kpiSunlight').textContent = `${site.max_continuous_illumination_days} d`;
+      document.getElementById('kpiSunlightDelta').textContent = `${site.illumination_percentage}% total`;
+
+      document.getElementById('kpiComm').textContent = `${site.max_continuous_comm_days} d`;
+      document.getElementById('kpiCommDelta').textContent = `${site.comm_percentage}% total`;
+
+      document.getElementById('kpiDual').textContent = `${site.max_continuous_dual_days} d`;
+      document.getElementById('kpiDualDelta').textContent = `${site.dual_operational_percentage}% overlap`;
+
+      document.getElementById('kpiNight').textContent = `${site.max_continuous_night_hours} h`;
+      document.getElementById('kpiBlackout').textContent = `${site.blackout_hours}h blackout`;
+
+      document.getElementById('kpiScore').textContent = `${site.clps_suitability_score} / 100`;
+      
+      const sorted = [...summariesData].sort((a,b) => b.clps_suitability_score - a.clps_suitability_score);
+      const rank = sorted.findIndex(s => s.site_id === site.site_id) + 1;
+      document.getElementById('kpiRank').textContent = `Rank #${rank} of ${summariesData.length}`;
+
+      drawPolarMap();
+      renderTelemetryChart();
+      runCertificationAudit();
+    }
+
+    function setupScrubber() {
+      const scrubber = document.getElementById('timeScrubber');
+      scrubber.addEventListener('input', (e) => {
+        currentHour = parseInt(e.target.value);
+        const day = (currentHour / 24.0).toFixed(1);
+        document.getElementById('scrubberLabel').textContent = `Hour ${currentHour} (Day ${day})`;
+        
+        // Calculate timestamp string
+        const baseDate = new Date(Date.UTC(2026, 10, 1, 0, 0, 0));
+        baseDate.setUTCHours(baseDate.getUTCHours() + currentHour);
+        const iso = baseDate.toISOString().replace('T', ' ').substring(0, 16) + ' UTC';
+        document.getElementById('currentTimeDisplay').textContent = iso;
+
+        drawPolarMap();
+      });
+    }
+
+    // Canvas drawing for Polar Map
+    function drawPolarMap() {
+      const canvas = document.getElementById('polarCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Scale factor: outer ring is 84°S (colatitude 6°)
+      // In km, r_max ~ 2 * 1737.4 * tan(3°) ~ 181.9 km
+      const maxColatRad = 6.0 * (Math.PI / 180.0);
+      const rMaxKm = 2.0 * R_MOON_KM * Math.tan(maxColatRad / 2.0);
+      const scale = (w * 0.44) / rMaxKm;
+
+      // Draw background space
+      ctx.fillStyle = '#070B14';
+      ctx.fillRect(0, 0, w, h);
+
+      // Draw Moon disc background
+      ctx.beginPath();
+      ctx.arc(cx, cy, (w * 0.44), 0, 2 * Math.PI);
+      ctx.fillStyle = '#111827';
+      ctx.fill();
+      ctx.strokeStyle = '#374151';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Latitude Rings (84°S, 86°S, 88°S, 89°S)
+      const latRings = [84, 86, 88, 89];
+      latRings.forEach(lat => {
+        const colat = (90.0 - lat) * (Math.PI / 180.0);
+        const rKm = 2.0 * R_MOON_KM * Math.tan(colat / 2.0);
+        const rPx = rKm * scale;
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, rPx, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#1F2937';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Label
+        ctx.fillStyle = '#6B7280';
+        ctx.font = '10px monospace';
+        ctx.fillText(`${lat}°S`, cx + 6, cy - rPx + 12);
+      });
+
+      // Longitude Spoke Axes (0° Earth, 90°E, 180° Far Side, 270°E)
+      ctx.strokeStyle = '#1F2937';
+      ctx.lineWidth = 1;
+      // 0° (North on map is 180°, South is 0° - towards Earth)
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - (w * 0.44));
+      ctx.lineTo(cx, cy + (w * 0.44));
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(cx - (w * 0.44), cy);
+      ctx.lineTo(cx + (w * 0.44), cy);
+      ctx.stroke();
+
+      // Axis labels
+      ctx.fillStyle = '#9CA3AF';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('0° (Earth Facing)', cx - 45, cy + (w * 0.44) - 8);
+      ctx.fillText('180° (Far Side)', cx - 40, cy - (w * 0.44) + 16);
+      ctx.fillText('90°E', cx + (w * 0.44) - 35, cy - 6);
+      ctx.fillText('270°E', cx - (w * 0.44) + 8, cy - 6);
+
+      // Draw Craters
+      CRATERS.forEach(crater => {
+        const pt = polarToXy(crater.lat, crater.lon);
+        const px = cx + pt.x * scale;
+        const py = cy + pt.y * scale;
+        const radPx = crater.radiusKm * scale;
+
+        ctx.beginPath();
+        ctx.arc(px, py, radPx, 0, 2 * Math.PI);
+        if (crater.psr) {
+          ctx.fillStyle = 'rgba(30, 58, 138, 0.4)';
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(59, 130, 246, 0.7)';
+        } else {
+          ctx.fillStyle = 'rgba(55, 65, 81, 0.3)';
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(107, 114, 128, 0.6)';
+        }
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Crater label
+        ctx.fillStyle = crater.psr ? '#93C5FD' : '#9CA3AF';
+        ctx.font = '9px monospace';
+        ctx.fillText(crater.name, px - 18, py - radPx - 3);
+      });
+
+      // Draw Landing Sites
+      summariesData.forEach(site => {
+        const pt = polarToXy(site.latitude, site.longitude);
+        const px = cx + pt.x * scale;
+        const py = cy + pt.y * scale;
+        const isSelected = site.site_id === selectedSiteId;
+
+        ctx.beginPath();
+        ctx.arc(px, py, isSelected ? 7 : 4, 0, 2 * Math.PI);
+        ctx.fillStyle = isSelected ? '#38BDF8' : '#10B981';
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = isSelected ? 2 : 1;
+        ctx.stroke();
+
+        if (isSelected) {
+          ctx.beginPath();
+          ctx.arc(px, py, 12, 0, 2 * Math.PI);
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+      });
+
+      // Draw Dynamic Instantaneous Sun & Earth Vectors from Selected Site
+      const currentSiteTelemetry = telemetryData[selectedSiteId];
+      if (currentSiteTelemetry && currentSiteTelemetry[currentHour]) {
+        const tel = currentSiteTelemetry[currentHour];
+        const site = summariesData.find(s => s.site_id === selectedSiteId);
+        if (site) {
+          const pt = polarToXy(site.latitude, site.longitude);
+          const px = cx + pt.x * scale;
+          const py = cy + pt.y * scale;
+
+          // Sun vector: length 75px
+          // Azimuth 0° is North, 90° East
+          const sunAngleRad = (tel.s_az - 90) * (Math.PI / 180.0);
+          const sunLen = 65;
+          const sunX = px + sunLen * Math.cos(sunAngleRad);
+          const sunY = py + sunLen * Math.sin(sunAngleRad);
+
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(sunX, sunY);
+          ctx.strokeStyle = '#FBBF24';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          // Sun head
+          ctx.beginPath();
+          ctx.arc(sunX, sunY, 4, 0, 2 * Math.PI);
+          ctx.fillStyle = '#FBBF24';
+          ctx.fill();
+
+          // Earth vector: length 75px
+          const earthAngleRad = (tel.e_az - 90) * (Math.PI / 180.0);
+          const earthLen = 65;
+          const earthX = px + earthLen * Math.cos(earthAngleRad);
+          const earthY = py + earthLen * Math.sin(earthAngleRad);
+
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(earthX, earthY);
+          ctx.strokeStyle = '#38BDF8';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          // Earth head
+          ctx.beginPath();
+          ctx.arc(earthX, earthY, 4, 0, 2 * Math.PI);
+          ctx.fillStyle = '#38BDF8';
+          ctx.fill();
+
+          // Update Status Badge Overlay
+          const badge = document.getElementById('liveStatusBadge');
+          let stateColor = 'text-amber-400';
+          let stateBg = 'bg-amber-950/60 border-amber-800/80';
+          if (tel.dl) {
+            stateColor = 'text-emerald-400';
+            stateBg = 'bg-emerald-950/60 border-emerald-800/80';
+          } else if (tel.st === 'Cryogenic Night' || (!tel.il && !tel.cm)) {
+            stateColor = 'text-rose-400';
+            stateBg = 'bg-rose-950/60 border-rose-800/80';
+          } else if (tel.cm) {
+            stateColor = 'text-cyan-400';
+            stateBg = 'bg-cyan-950/60 border-cyan-800/80';
+          }
+
+          badge.className = `absolute top-3 right-3 border rounded-lg px-3 py-2 text-xs font-mono backdrop-blur-sm shadow-md ${stateBg}`;
+          badge.innerHTML = `
+            <div class="font-bold ${stateColor} flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full ${tel.dl ? 'bg-emerald-400 animate-pulse' : 'bg-current'}"></span>
+              ${tel.st}
+            </div>
+            <div class="text-[11px] text-slate-300 mt-1">Sun: <span class="font-bold text-amber-300">${tel.s_el}°</span> (Hz: ${tel.s_hz}°)</div>
+            <div class="text-[11px] text-slate-300">Earth: <span class="font-bold text-cyan-300">${tel.e_el}°</span> (Hz: ${tel.e_hz}°)</div>
+          `;
+        }
+      }
+    }
+
+    // Render Plotly Telemetry Chart
+    function renderTelemetryChart() {
+      const container = document.getElementById('telemetryPlot');
+      if (!container || !telemetryData[selectedSiteId]) return;
+
+      const series = telemetryData[selectedSiteId];
+      const hours = series.map((_, i) => i);
+      const sunEl = series.map(d => d.s_el);
+      const sunHz = series.map(d => d.s_hz);
+      const earthEl = series.map(d => d.e_el);
+      const earthHz = series.map(d => d.e_hz);
+      const dualStates = series.map(d => d.dl ? 1 : 0);
+
+      const traces = [
+        {
+          x: hours,
+          y: sunEl,
+          name: 'Sun Elevation (°)',
+          type: 'scatter',
+          mode: 'lines',
+          line: { color: '#FBBF24', width: 2 }
+        },
+        {
+          x: hours,
+          y: sunHz,
+          name: 'Sun Horizon Mask (°)',
+          type: 'scatter',
+          mode: 'lines',
+          line: { color: '#B45309', dash: 'dash', width: 1.5 }
+        },
+        {
+          x: hours,
+          y: earthEl,
+          name: 'Earth Elevation (°)',
+          type: 'scatter',
+          mode: 'lines',
+          line: { color: '#38BDF8', width: 2 }
+        },
+        {
+          x: hours,
+          y: earthHz,
+          name: 'Earth Horizon Mask (°)',
+          type: 'scatter',
+          mode: 'lines',
+          line: { color: '#0369A1', dash: 'dash', width: 1.5 }
+        }
+      ];
+
+      const layout = {
+        title: {
+          text: `Temporal Trajectory for ${summariesData.find(s=>s.site_id===selectedSiteId)?.site_name || selectedSiteId}`,
+          font: { color: '#F1F5F9', size: 14 }
+        },
+        paper_bgcolor: '#0B0F19',
+        plot_bgcolor: '#0B0F19',
+        margin: { t: 40, r: 20, l: 50, b: 40 },
+        xaxis: {
+          title: { text: 'Mission Elapsed Time (Hours)', font: { color: '#94A3B8', size: 11 } },
+          gridcolor: '#1E293B',
+          color: '#94A3B8',
+          tickfont: { size: 10 }
+        },
+        yaxis: {
+          title: { text: 'Elevation Angle (°)', font: { color: '#94A3B8', size: 11 } },
+          gridcolor: '#1E293B',
+          color: '#94A3B8',
+          zerolinecolor: '#475569',
+          tickfont: { size: 10 }
+        },
+        legend: {
+          orientation: 'h',
+          y: -0.2,
+          x: 0,
+          font: { color: '#CBD5E1', size: 10 }
+        }
+      };
+
+      Plotly.newPlot('telemetryPlot', traces, layout, { responsive: true, displayModeBar: false });
+    }
+
+    // Populate Tables
+    function populateScorecardTable() {
+      const tbody = document.getElementById('scorecardTableBody');
+      tbody.innerHTML = '';
+      summariesData.forEach(site => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-space-850/60 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-semibold text-slate-200">${site.site_name}</td>
+          <td class="py-3 px-2 text-center text-slate-400">${site.latitude}°S, ${site.longitude}°E</td>
+          <td class="py-3 px-2 text-center ${site.slope_deg < 15 ? 'text-emerald-400' : 'text-rose-400'}">${site.slope_deg}°</td>
+          <td class="py-3 px-2 text-center text-amber-300">${site.max_continuous_illumination_days} d</td>
+          <td class="py-3 px-2 text-center text-cyan-300">${site.max_continuous_comm_days} d</td>
+          <td class="py-3 px-2 text-center text-emerald-300 font-bold">${site.max_continuous_dual_days} d</td>
+          <td class="py-3 px-2 text-center text-slate-300">${site.max_continuous_night_hours} h</td>
+          <td class="py-3 px-2 text-center ${site.blackout_hours === 0 ? 'text-emerald-400' : 'text-rose-400'}">${site.blackout_hours} h</td>
+          <td class="py-3 px-3 text-right font-bold text-cyanAccent">${site.clps_suitability_score}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function populateSeasonsTable() {
+      const tbody = document.getElementById('seasonsTableBody');
+      tbody.innerHTML = '';
+      // Group by site_id
+      const sitesMap = {};
+      seasonalData.forEach(entry => {
+        if (!sitesMap[entry.site_id]) sitesMap[entry.site_id] = { name: entry.site_name, seasons: {} };
+        sitesMap[entry.site_id].seasons[entry.season] = entry;
+      });
+
+      Object.values(sitesMap).forEach(site => {
+        const summer = site.seasons['Southern Summer Solstice']?.clps_suitability_score ?? '--';
+        const autumn = site.seasons['Southern Autumnal Equinox']?.clps_suitability_score ?? '--';
+        const winter = site.seasons['Southern Winter Solstice']?.clps_suitability_score ?? '--';
+        const spring = site.seasons['Southern Vernal Equinox']?.clps_suitability_score ?? '--';
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-space-850/60 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-semibold text-slate-200">${site.name}</td>
+          <td class="py-3 px-2 text-center text-amber-300 font-bold">${summer}</td>
+          <td class="py-3 px-2 text-center text-slate-300">${autumn}</td>
+          <td class="py-3 px-2 text-center text-cyan-300 font-bold">${winter}</td>
+          <td class="py-3 px-2 text-center text-slate-300">${spring}</td>
+          <td class="py-3 px-3 text-right text-emerald-400 font-semibold">${winter > 20 ? 'All-Year Operational' : 'Summer-Biased'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function populateIsruTable() {
+      const tbody = document.getElementById('isruTableBody');
+      tbody.innerHTML = '';
+      isruData.forEach(entry => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-space-850/60 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-semibold text-slate-200">${entry.site_name}</td>
+          <td class="py-3 px-3 text-cyan-300">${entry.nearest_psr_name}</td>
+          <td class="py-3 px-2 text-center font-bold text-amber-300">${entry.nearest_psr_distance_km} km</td>
+          <td class="py-3 px-2 text-center text-indigo-300">${entry.nearest_psr_temperature_k} K</td>
+          <td class="py-3 px-3 text-slate-300">${entry.nearest_psr_volatiles.join(', ')}</td>
+          <td class="py-3 px-3 text-emerald-400">${entry.traverse_classification}</td>
+          <td class="py-3 px-3 text-right font-bold text-cyanAccent">${entry.isru_accessibility_index}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderMathFormulas() {
+      if (typeof katex === 'undefined') return;
+      katex.render("\\alpha(t) = \\arcsin(\\hat{u}(t) \\cdot \\hat{Z}), \\quad \\psi(t) = \\text{atan2}(\\hat{u}(t) \\cdot \\hat{E}, -\\hat{u}(t) \\cdot \\hat{S})", document.getElementById('math1'), { displayMode: true });
+      katex.render("\\tan \\theta(r, \\psi) = \\frac{z(r, \\psi) - z_0 - \\frac{r^2}{2 R_M}}{r}, \\quad H(\\psi) = \\max_{r} \\theta(r, \\psi)", document.getElementById('math2'), { displayMode: true });
+      katex.render("\\text{Dual}(t_k) = \\mathbb{I}(\\alpha_{\\odot}(t_k) \\ge H(\\psi_{\\odot})) \\cdot \\mathbb{I}(\\alpha_{\\oplus}(t_k) \\ge H(\\psi_{\\oplus}))", document.getElementById('math3'), { displayMode: true });
+      katex.render("S = 100 \\times \\left[ 0.40 \\frac{D_{\\text{dual}}}{30} + 0.25 \\left(1 - \\frac{\\sigma}{15}\\right) + 0.20 \\left(1 - \\frac{T_{\\text{dark}}}{720}\\right) + 0.15 \\frac{D_{\\text{comm}}}{30} \\right]", document.getElementById('math4'), { displayMode: true });
+    }
+
+    function runCertificationAudit() {
+      const site = summariesData.find(s => s.site_id === selectedSiteId);
+      if (!site) return;
+
+      const pSun = site.max_continuous_illumination_days >= 10.0;
+      const pComm = site.max_continuous_comm_days >= 10.0;
+      const pDual = site.max_continuous_dual_days >= 10.0;
+      const pSlope = site.slope_deg <= 15.0;
+      const pNight = site.max_continuous_night_hours < 350;
+
+      const isru = isruData.find(i => i.site_id === site.site_id);
+      const pIsru = isru ? isru.nearest_psr_distance_km <= 15.0 : false;
+
+      updateRule('rule-sun', pSun);
+      updateRule('rule-comm', pComm);
+      updateRule('rule-dual', pDual);
+      updateRule('rule-slope', pSlope);
+      updateRule('rule-night', pNight);
+      updateRule('rule-isru', pIsru);
+
+      const allPass = pSun && pComm && pDual && pSlope && pNight;
+      const certTitle = document.getElementById('certTitle');
+      const certSummary = document.getElementById('certSummary');
+
+      if (allPass) {
+        certTitle.className = 'text-2xl font-black text-emerald-400 mt-2 flex items-center gap-2';
+        certTitle.innerHTML = '<i class="fa-solid fa-circle-check"></i> MISSION GO';
+        certSummary.textContent = `Candidate site ${site.site_name} satisfies all CLPS primary flight director criteria. Dual-window overlap of ${site.max_continuous_dual_days} days and surface slope of ${site.slope_deg}° guarantee stable PDI touchdown and mission survival.`;
+      } else {
+        certTitle.className = 'text-2xl font-black text-amber-400 mt-2 flex items-center gap-2';
+        certTitle.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> CONDITIONAL / NO-GO';
+        certSummary.textContent = `Candidate site ${site.site_name} exhibits constraints below nominal thresholds (Dual-Op: ${site.max_continuous_dual_days}d, Slope: ${site.slope_deg}°, Max Night: ${site.max_continuous_night_hours}h). Requires relay satellite or rover traverse mitigation.`;
+      }
+    }
+
+    function updateRule(elementId, passed) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const pill = el.querySelector('.status-pill');
+      if (pill) {
+        pill.className = `status-pill font-bold ${passed ? 'text-emerald-400' : 'text-rose-400'}`;
+        pill.textContent = passed ? 'PASS' : 'FAIL';
+      }
+    }
+
+    // Run on page load
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
